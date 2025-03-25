@@ -710,23 +710,27 @@ const Home: React.FC = () => {
     setSelectedAnswer(null);
     setScore(0);
     
-    // Randomize questions when domain is selected
-    if (domain.questions.length > 0) {
+    // Only randomize questions if the domain has questions
+    if (domain.questions && domain.questions.length > 0) {
       const shuffledQuestions = shuffleArray(domain.questions).map(randomizeQuestion);
       setRandomizedQuestions(shuffledQuestions);
+    } else {
+      setRandomizedQuestions([]);
     }
   };
 
   const handleAnswerSelect = (answerIndex: number) => {
+    if (!randomizedQuestions.length) return;
+    
     setSelectedAnswer(answerIndex);
     setShowExplanation(true);
-    if (selectedDomain && answerIndex === randomizedQuestions[currentQuestion].correctAnswer) {
+    if (answerIndex === randomizedQuestions[currentQuestion].correctAnswer) {
       setScore(score + 1);
     }
   };
 
   const nextQuestion = () => {
-    if (selectedDomain && currentQuestion < randomizedQuestions.length - 1) {
+    if (randomizedQuestions.length && currentQuestion < randomizedQuestions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setShowExplanation(false);
       setSelectedAnswer(null);
@@ -812,9 +816,11 @@ const Home: React.FC = () => {
                   {selectedDomain.name}
                 </h2>
               </div>
-              <div className="text-sm text-gray-500">
-                Score: {score}/{currentQuestion + 1}
-              </div>
+              {randomizedQuestions.length > 0 && (
+                <div className="text-sm text-gray-500">
+                  Score: {score}/{currentQuestion + 1}
+                </div>
+              )}
             </div>
 
             {randomizedQuestions.length > 0 ? (
@@ -905,9 +911,20 @@ const Home: React.FC = () => {
                 </motion.div>
               </AnimatePresence>
             ) : (
-              <p className="text-gray-600 text-center py-8">
-                Questions for this domain will be available soon.
-              </p>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center py-12"
+              >
+                <Shield className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Questions Coming Soon
+                </h3>
+                <p className="text-gray-600 max-w-md mx-auto">
+                  We're currently preparing questions for {selectedDomain.name}. 
+                  Please check back later or try another domain.
+                </p>
+              </motion.div>
             )}
           </motion.div>
         )}
