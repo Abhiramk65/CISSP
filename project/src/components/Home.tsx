@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, ArrowLeft, CheckCircle, XCircle } from 'lucide-react';
+import { Shield, ArrowLeft, CheckCircle, XCircle, Book, Brain, Target, Clock, Users, Lock, Network, Key, Bug, Code, AlertCircle } from 'lucide-react';
 
 interface Question {
   id: number;
@@ -41,6 +41,208 @@ const randomizeQuestion = (question: Question): Question => {
   };
   
   return randomizedQuestion;
+};
+
+interface FlashCard {
+  id: number;
+  front: string;
+  back: string;
+  category: string;
+}
+
+interface LearningMaterial {
+  id: number;
+  title: string;
+  description: string;
+  type: 'video' | 'article' | 'quiz';
+  url?: string;
+  icon: React.ReactNode;
+}
+
+const learningMaterials: Record<number, LearningMaterial[]> = {
+  1: [
+    {
+      id: 1,
+      title: "Risk Management Fundamentals",
+      description: "Learn the core concepts of risk management in information security",
+      type: "article",
+      icon: <Target className="w-6 h-6" />
+    },
+    {
+      id: 2,
+      title: "Security Governance",
+      description: "Understanding security governance frameworks and principles",
+      type: "video",
+      icon: <Users className="w-6 h-6" />
+    }
+  ],
+  2: [
+    {
+      id: 3,
+      title: "Asset Classification",
+      description: "Learn how to properly classify and protect information assets",
+      type: "article",
+      icon: <Lock className="w-6 h-6" />
+    }
+  ],
+  // Add materials for other domains...
+};
+
+const flashCards: Record<number, FlashCard[]> = {
+  1: [
+    {
+      id: 1,
+      front: "CIA Triad",
+      back: "The three fundamental information security concepts are Confidentiality, Integrity, and Availability.\n\n• Confidentiality limits access to information to authorized subjects and prevents unauthorized disclosure.\n• Integrity ensures data is accurate, complete, and protected from unauthorized modification.\n• Availability ensures authorized users have reliable and timely access to information and systems.",
+      category: "Core Concepts"
+    },
+    {
+      id: 2,
+      front: "Authenticity",
+      back: "Authenticity ensures that the source of a message, data, transaction, or information exchange is who (or what) it claims to be. It is verified through authentication, achieved through identity and access management (IAM) and integrity. Authenticity proves you're talking to a given person at a given point in time.",
+      category: "Core Concepts"
+    },
+    {
+      id: 3,
+      front: "Nonrepudiation",
+      back: "Nonrepudiation means that an action or occurrence cannot be easily denied. It is related to identification, authentication, and accountability. For example, it's difficult for a user to deny sending an email message digitally signed with their private key. Nonrepudiation proves to anyone that a given person did or said something in the past.",
+      category: "Core Concepts"
+    },
+    {
+      id: 4,
+      front: "Due Care",
+      back: "Due care is the conduct that a reasonable person exercises in a given situation, providing a standard for determining negligence. In information security, due care relates to steps taken to perform duties and implement security best practices. An example of due care is turning on logging.",
+      category: "Legal Concepts"
+    },
+    {
+      id: 5,
+      front: "Due Diligence",
+      back: "Due diligence is the prudent management and execution of due care. It involves researching and assessing current vulnerabilities to understand true risk levels. It is normally associated with leaders, laws, and regulations. An example of due diligence is reviewing logs regularly.",
+      category: "Legal Concepts"
+    },
+    {
+      id: 6,
+      front: "Security Policy",
+      back: "A security policy is a high-level management statement of an organization's security objectives, responsibilities, ethics, and general requirements. Policies establish governance, provide guidance and decision support, help establish legal authority, and ensure risks are kept to acceptable levels. They are written in broad terms to cover many subjects generally.",
+      category: "Security Documentation"
+    },
+    {
+      id: 7,
+      front: "Security Standard",
+      back: "Security standards refer to mandatory activities, actions, or rules that further define and support high-level policies. They describe specific requirements that allow meeting policy goals and are unambiguous, detailed, and measurable. Organizational security standards may specify how hardware and software products are to be used and can indicate expected user behavior.",
+      category: "Security Documentation"
+    },
+    {
+      id: 8,
+      front: "Security Procedure",
+      back: "Security procedures are detailed step-by-step tasks that should be performed to achieve a certain goal. The steps can apply to users, IT staff, operations staff, security members, and others who may need to carry out specific tasks, such as installing operating systems, configuring security mechanisms, or implementing access control lists.",
+      category: "Security Documentation"
+    },
+    {
+      id: 9,
+      front: "Security Guideline",
+      back: "Security guidelines are recommendations or best practices that are not mandatory but provide helpful guidance. A supporting guideline could further explain that audits should contain sufficient information to allow for reconciliation with prior reviews.",
+      category: "Security Documentation"
+    },
+    {
+      id: 10,
+      front: "Business Continuity (BC)",
+      back: "Business Continuity (BC) deals with keeping business operations running after a disaster has struck, perhaps in another location or using different tools. A BCP can include getting critical systems to another environment, getting the right people to the right places, and performing business in a different mode until regular conditions are back in place.",
+      category: "Business Continuity"
+    },
+    {
+      id: 11,
+      front: "Disaster Recovery (DR)",
+      back: "Disaster Recovery (DR) deals with restoring normal business operations after a disaster takes place. The DRP is a subset of the BCP and is focused on the immediate aftermath of a disaster. Disaster recovery deals with the immediate response to a disaster situation.",
+      category: "Business Continuity"
+    },
+    {
+      id: 12,
+      front: "Business Impact Analysis (BIA)",
+      back: "A Business Impact Analysis (BIA) identifies essential assets and describes the impact on business operations if various IT systems are lost. It helps determine the maximum tolerable downtime (MTD) for critical business functions and establish recovery targets like RTO and RPO. A BIA is performed at the beginning of business continuity planning.",
+      category: "Business Continuity"
+    },
+    {
+      id: 13,
+      front: "Risk Management",
+      back: "Risk Management is the process from which decisions are made to establish necessary security controls, implement them, acquire tools, and hire personnel. It involves framing risk, assessing risks (identifying assets, threats, vulnerabilities, likelihood, impact), responding to risks (mitigation, transference, acceptance, avoidance), and monitoring risks.",
+      category: "Risk Management"
+    },
+    {
+      id: 14,
+      front: "Threat Modeling",
+      back: "Threat modeling is a type of risk analysis used to identify exploitable security defects in the design phase of an information system or business process. Typically attack-centric, it identifies threats and their mitigations during the design phase, saving time and cost. Methodologies like STRIDE and DREAD are used.",
+      category: "Risk Management"
+    },
+    {
+      id: 15,
+      front: "Supply Chain Risk Management (SCRM)",
+      back: "Supply Chain Risk Management (SCRM) involves integrating security risk considerations into your third-party risk management strategy to minimize the introduction of new or unknown risks. It involves understanding your supply chain map, assessing risks associated with suppliers, and establishing minimum security requirements in contracts.",
+      category: "Risk Management"
+    },
+    {
+      id: 16,
+      front: "Security Awareness Program",
+      back: "A security awareness program provides basic security information and ensures everyone understands the importance of security. Key factors for success include audience consideration, relevance, engagement, and action with follow-up. It typically includes general awareness, formal training, and education aimed at influencing organizational culture.",
+      category: "Security Training"
+    },
+    {
+      id: 17,
+      front: "(ISC)² Code of Professional Ethics",
+      back: "The (ISC)² Code of Professional Ethics is a code of conduct or standards of ethical behavior that CISSP members must abide by. It includes principles like protecting society, acting honourably, and providing diligent and competent service. CISSP candidates must be familiar with this code.",
+      category: "Professional Ethics"
+    },
+    {
+      id: 18,
+      front: "Risk",
+      back: "Risk is a measure of the extent to which an entity is threatened by a potential circumstance or event, and typically a function of (1) the likelihood of an adverse event occurring; and (2) the potential impact if it does. It is the likelihood that a threat will exploit a vulnerability. Risk (Risk = Threat × Impact × Probability).",
+      category: "Risk Management"
+    },
+    {
+      id: 19,
+      front: "Threat",
+      back: "A threat is a potential cause of an unwanted incident, which may result in harm to a system or organization. Threat analysis involves defining the threat, identifying possible consequences, determining probable frequency and impact, and assessing the probability of materialization. Threat sources can be human or natural.",
+      category: "Risk Management"
+    },
+    {
+      id: 20,
+      front: "Vulnerability",
+      back: "A vulnerability is a weakness in an asset or control that can be exploited by a threat. Vulnerability assessments identify, evaluate, quantify, and prioritize these security weaknesses. Vulnerabilities can exist in information (data at rest, in transit, in use), processes, and people.",
+      category: "Risk Management"
+    },
+    {
+      id: 21,
+      front: "Security Governance",
+      back: "Security Governance is a framework that supports the security goals of an organization being set and expressed by senior management, communicated throughout different levels, and consistently applied and assessed. It grants power to entities needing to implement and enforce security and provides a way to verify the performance of necessary security activities.",
+      category: "Security Management"
+    },
+    {
+      id: 22,
+      front: "Personally Identifiable Information (PII)",
+      back: "Personally Identifiable Information (PII) is data that can be used to uniquely identify, contact, or locate a single person or can be used with other sources to uniquely identify a single individual. Organizations must have privacy policies and controls to protect employee and customer PII, documenting how it is collected, used, disclosed, archived, and destroyed.",
+      category: "Privacy"
+    }
+  ],
+  2: [
+    {
+      id: 3,
+      front: "What is Asset Classification?",
+      back: "The process of categorizing assets based on their value and sensitivity to determine appropriate security controls",
+      category: "Asset Management"
+    }
+  ],
+  // Add flash cards for other domains...
+};
+
+const domainIcons = {
+  1: <Shield className="w-8 h-8" />,
+  2: <Lock className="w-8 h-8" />,
+  3: <Network className="w-8 h-8" />,
+  4: <Network className="w-8 h-8" />,
+  5: <Key className="w-8 h-8" />,
+  6: <Bug className="w-8 h-8" />,
+  7: <AlertCircle className="w-8 h-8" />,
+  8: <Code className="w-8 h-8" />
 };
 
 const domains: Domain[] = [
@@ -702,6 +904,8 @@ const Home: React.FC = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [score, setScore] = useState<number>(0);
   const [randomizedQuestions, setRandomizedQuestions] = useState<Question[]>([]);
+  const [activeTab, setActiveTab] = useState<'practice' | 'learn' | 'flashcards'>('practice');
+  const [flippedCard, setFlippedCard] = useState<number | null>(null);
 
   const handleDomainSelect = (domain: Domain) => {
     setSelectedDomain(domain);
@@ -755,6 +959,137 @@ const Home: React.FC = () => {
     }
   };
 
+  const renderDomainOverview = () => (
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-8"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {domains.map((domain) => (
+          <motion.div
+            key={domain.id}
+            variants={itemVariants}
+            className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            onClick={() => handleDomainSelect(domain)}
+          >
+            <div className="flex items-center mb-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-4 text-white">
+                {domainIcons[domain.id as keyof typeof domainIcons]}
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900">
+                  Domain {domain.id}
+                </h2>
+                <p className="text-sm text-gray-500">
+                  {domain.questions.length} questions
+                </p>
+              </div>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              {domain.name}
+            </h3>
+            <p className="text-gray-600 text-sm mb-4">
+              {domain.description}
+            </p>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center text-sm text-gray-500">
+                <Book className="w-4 h-4 mr-1" />
+                {learningMaterials[domain.id]?.length || 0} learning materials
+              </div>
+              <div className="flex items-center text-sm text-gray-500">
+                <Brain className="w-4 h-4 mr-1" />
+                {flashCards[domain.id]?.length || 0} flash cards
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+
+  const renderLearningMaterials = () => (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="space-y-6"
+    >
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">Learning Materials</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {selectedDomain && learningMaterials[selectedDomain.id]?.map((material) => (
+          <motion.div
+            key={material.id}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-all duration-300"
+          >
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3 text-blue-600">
+                {material.icon}
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">
+                {material.title}
+              </h3>
+            </div>
+            <p className="text-gray-600 mb-4">{material.description}</p>
+            <div className="flex items-center text-sm text-gray-500">
+              <Clock className="w-4 h-4 mr-1" />
+              {material.type === 'video' ? '15 min' : '10 min'} read
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+
+  const renderFlashCards = () => (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="space-y-6"
+    >
+      <h2 className="text-2xl font-bold text-gray-900 mb-6">Flash Cards</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {selectedDomain && flashCards[selectedDomain.id]?.map((card) => (
+          <motion.div
+            key={card.id}
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="relative h-64 cursor-pointer perspective-1000"
+            onClick={() => setFlippedCard(flippedCard === card.id ? null : card.id)}
+          >
+            <div 
+              className={`relative w-full h-full transition-transform duration-700 transform-style-3d ${
+                flippedCard === card.id ? 'rotate-y-180' : ''
+              }`}
+            >
+              {/* Front of card */}
+              <div className="absolute inset-0 backface-hidden bg-white rounded-xl shadow-lg p-6 flex items-center justify-center text-center border-2 border-blue-100 overflow-hidden">
+                <div className="w-full">
+                  <p className="text-lg font-medium text-gray-900 mb-2 break-words">{card.front}</p>
+                  <span className="text-sm text-blue-600 font-medium">{card.category}</span>
+                </div>
+              </div>
+              
+              {/* Back of card */}
+              <div className="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg p-6 flex items-center justify-center text-center border-2 border-blue-200 overflow-y-auto">
+                <div className="w-full">
+                  <div className="prose prose-sm max-w-none">
+                    <p className="text-base text-gray-700 whitespace-pre-line break-words">{card.back}</p>
+                  </div>
+                  <div className="mt-4 flex items-center justify-center text-sm text-blue-600">
+                    <span className="mr-1">Click to flip back</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4">
       <div className="max-w-7xl mx-auto">
@@ -768,40 +1103,12 @@ const Home: React.FC = () => {
         </motion.h1>
         
         {!selectedDomain ? (
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {domains.map((domain) => (
-              <motion.div
-                key={domain.id}
-                variants={itemVariants}
-                className="bg-white rounded-lg shadow-md p-6 cursor-pointer hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
-                onClick={() => handleDomainSelect(domain)}
-              >
-                <div className="flex items-center mb-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                    <span className="text-blue-600 font-semibold">{domain.id}</span>
-                  </div>
-                  <h2 className="text-xl font-semibold text-gray-900">
-                    {domain.name}
-                  </h2>
-                </div>
-                <p className="text-gray-600 mb-4">{domain.description}</p>
-                <div className="flex items-center text-sm text-gray-500">
-                  <Shield className="w-4 h-4 mr-2" />
-                  {domain.questions.length} questions available
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          renderDomainOverview()
         ) : (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-lg shadow-md p-6"
+            className="bg-white rounded-xl shadow-lg p-6"
           >
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center">
@@ -812,9 +1119,19 @@ const Home: React.FC = () => {
                   <ArrowLeft className="w-5 h-5 mr-1" />
                   Back to Domains
                 </button>
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  {selectedDomain.name}
-                </h2>
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-3 text-white">
+                    {domainIcons[selectedDomain.id as keyof typeof domainIcons]}
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-semibold text-gray-900">
+                      {selectedDomain.name}
+                    </h2>
+                    <p className="text-sm text-gray-500">
+                      Domain {selectedDomain.id}
+                    </p>
+                  </div>
+                </div>
               </div>
               {randomizedQuestions.length > 0 && (
                 <div className="text-sm text-gray-500">
@@ -823,10 +1140,42 @@ const Home: React.FC = () => {
               )}
             </div>
 
-            {randomizedQuestions.length > 0 ? (
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentQuestion}
+            <div className="flex space-x-4 mb-6">
+              <button
+                onClick={() => setActiveTab('practice')}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  activeTab === 'practice'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                Practice Questions
+              </button>
+              <button
+                onClick={() => setActiveTab('learn')}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  activeTab === 'learn'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                Learning Materials
+              </button>
+              <button
+                onClick={() => setActiveTab('flashcards')}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  activeTab === 'flashcards'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                Flash Cards
+              </button>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {activeTab === 'practice' && randomizedQuestions.length > 0 ? (
+                <motion.div 
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
@@ -909,23 +1258,27 @@ const Home: React.FC = () => {
                     </motion.button>
                   )}
                 </motion.div>
-              </AnimatePresence>
-            ) : (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-12"
-              >
-                <Shield className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Questions Coming Soon
-                </h3>
-                <p className="text-gray-600 max-w-md mx-auto">
-                  We're currently preparing questions for {selectedDomain.name}. 
-                  Please check back later or try another domain.
-                </p>
-              </motion.div>
-            )}
+              ) : activeTab === 'practice' ? (
+                <motion.div 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-center py-12"
+                >
+                  <Shield className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    Questions Coming Soon
+                  </h3>
+                  <p className="text-gray-600 max-w-md mx-auto">
+                    We're currently preparing questions for {selectedDomain.name}. 
+                    Please check back later or try another domain.
+                  </p>
+                </motion.div>
+              ) : activeTab === 'learn' ? (
+                renderLearningMaterials()
+              ) : (
+                renderFlashCards()
+              )}
+            </AnimatePresence>
           </motion.div>
         )}
       </div>
