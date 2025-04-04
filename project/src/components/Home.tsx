@@ -175,7 +175,9 @@ const Home: React.FC = () => {
       animate={{ opacity: 1 }}
       className="space-y-6"
     >
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Flash Cards</h2>
+      <h2 className={`text-2xl font-bold mb-6 ${
+        currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-900'
+      }`}>Flash Cards</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {selectedDomain?.flashCards?.map((card: FlashCard) => (
           <motion.div
@@ -191,20 +193,38 @@ const Home: React.FC = () => {
               }`}
             >
               {/* Front of card */}
-              <div className="absolute inset-0 backface-hidden bg-white rounded-xl shadow-lg p-6 flex items-center justify-center text-center border-2 border-blue-100 overflow-hidden">
+              <div className={`absolute inset-0 backface-hidden rounded-xl shadow-lg p-6 flex items-center justify-center text-center overflow-hidden ${
+                currentTheme === 'matrix'
+                  ? 'bg-black/80 border-2 border-green-500'
+                  : 'bg-white border-2 border-blue-100'
+              }`}>
                 <div className="w-full">
-                  <p className="text-lg font-medium text-gray-900 mb-2 break-words">{card.front}</p>
-                  <span className="text-sm text-blue-600 font-medium">{card.category}</span>
+                  <p className={`text-lg font-medium mb-2 break-words ${
+                    currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
+                  }`}>{card.front}</p>
+                  <span className={`text-sm font-medium ${
+                    currentTheme === 'matrix' ? 'text-green-600' : 'text-blue-600'
+                  }`}>{card.category}</span>
                 </div>
               </div>
               
               {/* Back of card */}
-              <div className="absolute inset-0 backface-hidden rotate-y-180 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-lg p-6 flex items-center justify-center text-center border-2 border-blue-200 overflow-y-auto">
+              <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-xl shadow-lg p-6 flex items-center justify-center text-center overflow-y-auto ${
+                currentTheme === 'matrix'
+                  ? 'bg-black/90 border-2 border-green-500'
+                  : 'bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200'
+              }`}>
                 <div className="w-full">
-                  <div className="prose prose-sm max-w-none">
-                    <p className="text-base text-gray-700 whitespace-pre-line break-words">{card.back}</p>
+                  <div className={`prose prose-sm max-w-none ${
+                    currentTheme === 'matrix' ? 'prose-invert' : ''
+                  }`}>
+                    <p className={`text-base whitespace-pre-line break-words ${
+                      currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-700'
+                    }`}>{card.back}</p>
                   </div>
-                  <div className="mt-4 flex items-center justify-center text-sm text-blue-600">
+                  <div className={`mt-4 flex items-center justify-center text-sm ${
+                    currentTheme === 'matrix' ? 'text-green-600' : 'text-blue-600'
+                  }`}>
                     <span className="mr-1">Click to flip back</span>
                   </div>
                 </div>
