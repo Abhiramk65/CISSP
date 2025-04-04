@@ -4,6 +4,9 @@ import { Shield, ArrowLeft, CheckCircle, XCircle, Brain, Target, Clock, Users, L
 import { Domain, Question, FlashCard } from '../domains/types';
 import { domains } from '../domains';
 import { shuffleArray, randomizeQuestion } from '../domains/utils';
+import { themes } from '../themes';
+import ThemeSwitcher from './ThemeSwitcher';
+import DigitalRain from './DigitalRain';
 
 const domainIcons = {
   1: <Shield className="w-8 h-8" />,
@@ -27,6 +30,8 @@ const Home: React.FC = () => {
   const [flippedCard, setFlippedCard] = useState<number | null>(null);
   const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(new Set());
   const [correctAnswers, setCorrectAnswers] = useState<Set<number>>(new Set());
+  const [currentTheme, setCurrentTheme] = useState<string>('default');
+  const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: number }>({});
 
   const handleDomainSelect = (domain: Domain) => {
     setSelectedDomain(domain);
@@ -36,6 +41,7 @@ const Home: React.FC = () => {
     setScore(0);
     setAnsweredQuestions(new Set());
     setCorrectAnswers(new Set());
+    setSelectedAnswers({});
     
     if (domain.questions && domain.questions.length > 0) {
       const shuffledQuestions = shuffleArray(domain.questions).map(randomizeQuestion);
@@ -50,6 +56,10 @@ const Home: React.FC = () => {
     
     setSelectedAnswer(answerIndex);
     setShowExplanation(true);
+    setSelectedAnswers(prev => ({
+      ...prev,
+      [currentQuestion]: answerIndex
+    }));
     
     const isCorrect = answerIndex === randomizedQuestions[currentQuestion].correctAnswer;
     if (isCorrect) {
@@ -61,24 +71,22 @@ const Home: React.FC = () => {
 
   const nextQuestion = () => {
     if (randomizedQuestions.length && currentQuestion < randomizedQuestions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setShowExplanation(false);
-      setSelectedAnswer(null);
+      const nextIndex = currentQuestion + 1;
+      jumpToQuestion(nextIndex);
     }
   };
 
   const previousQuestion = () => {
     if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-      setShowExplanation(false);
-      setSelectedAnswer(null);
+      const prevIndex = currentQuestion - 1;
+      jumpToQuestion(prevIndex);
     }
   };
 
   const jumpToQuestion = (index: number) => {
     setCurrentQuestion(index);
-    setShowExplanation(false);
-    setSelectedAnswer(null);
+    setShowExplanation(answeredQuestions.has(index));
+    setSelectedAnswer(selectedAnswers[index] ?? null);
   };
 
   const containerVariants = {
@@ -99,47 +107,65 @@ const Home: React.FC = () => {
     }
   };
 
+  const currentThemeData = themes.find(t => t.id === currentTheme) || themes[0];
+
   const renderDomainOverview = () => (
     <motion.div 
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="space-y-8"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {domains.map((domain) => (
-          <motion.div
-            key={domain.id}
-            variants={itemVariants}
-            className="bg-white rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-            onClick={() => handleDomainSelect(domain)}
-          >
-            <div className="flex items-center mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-4 text-white">
-                {domainIcons[domain.id as keyof typeof domainIcons]}
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Domain {domain.id}
-                </h2>
-                <p className="text-sm text-gray-500">
-                  {domain.questions.length} questions
-                </p>
-              </div>
+      {domains.map((domain) => (
+        <motion.div
+          key={domain.id}
+          variants={itemVariants}
+          className={`${
+            currentTheme === 'matrix' 
+              ? 'bg-black/80 border-green-500 hover:border-green-400' 
+              : 'bg-white border-primary-100'
+          } rounded-xl shadow-lg p-6 cursor-pointer hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border`}
+          onClick={() => handleDomainSelect(domain)}
+        >
+          <div className="flex items-center mb-4">
+            <div className={`w-12 h-12 ${
+              currentTheme === 'matrix'
+                ? 'bg-black border-2 border-green-500'
+                : `bg-gradient-to-br ${currentThemeData.gradients.primary}`
+            } rounded-xl flex items-center justify-center mr-4 text-white shadow-md`}>
+              {domainIcons[domain.id as keyof typeof domainIcons]}
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {domain.name}
-            </h3>
-            <p className="text-gray-600 text-sm mb-4">
-              {domain.description}
-            </p>
-            <div className="flex items-center text-sm text-gray-500">
-              <Brain className="w-4 h-4 mr-1" />
-              {domain.flashCards?.length || 0} flash cards
+            <div>
+              <h2 className={`text-xl font-semibold ${
+                currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-900'
+              }`}>
+                Domain {domain.id}
+              </h2>
+              <p className={`text-sm ${
+                currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-500'
+              }`}>
+                {domain.questions.length} questions
+              </p>
             </div>
-          </motion.div>
-        ))}
-      </div>
+          </div>
+          <h3 className={`text-lg font-medium mb-2 ${
+            currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
+          }`}>
+            {domain.name}
+          </h3>
+          <p className={`text-sm mb-4 ${
+            currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-600'
+          }`}>
+            {domain.description}
+          </p>
+          <div className={`flex items-center text-sm ${
+            currentTheme === 'matrix' ? 'text-green-500' : 'text-primary-600'
+          }`}>
+            <Brain className="w-4 h-4 mr-1" />
+            {domain.flashCards?.length || 0} flash cards
+          </div>
+        </motion.div>
+      ))}
     </motion.div>
   );
 
@@ -191,14 +217,24 @@ const Home: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className={`min-h-screen bg-gradient-to-br ${currentThemeData.gradients.background} relative`}>
+      {currentTheme === 'matrix' && <DigitalRain />}
+      <ThemeSwitcher
+        themes={themes}
+        currentTheme={currentTheme}
+        onThemeChange={setCurrentTheme}
+      />
+      <div className={`max-w-7xl mx-auto p-8 relative z-10 ${currentTheme === 'matrix' ? 'text-green-500' : ''}`}>
         <motion.h1 
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="text-4xl font-bold text-center text-gray-900 mb-8 flex items-center justify-center"
+          className={`text-4xl font-bold text-center mb-8 flex items-center justify-center ${
+            currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-900'
+          }`}
         >
-          <Shield className="w-8 h-8 mr-3 text-blue-600" />
+          <Shield className={`w-8 h-8 mr-3 ${
+            currentTheme === 'matrix' ? 'text-green-500' : 'text-primary-600'
+          }`} />
           CISSP Practice Questions
         </motion.h1>
         
@@ -208,33 +244,51 @@ const Home: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-xl shadow-lg p-6"
+            className={`${
+              currentTheme === 'matrix'
+                ? 'bg-black/80 border-green-500'
+                : 'bg-white border-primary-100'
+            } rounded-xl shadow-lg p-6 border`}
           >
             <div className="flex justify-between items-center mb-6">
               <div className="flex items-center">
                 <button
                   onClick={() => setSelectedDomain(null)}
-                  className="text-gray-600 hover:text-gray-900 mr-4 flex items-center"
+                  className={`${
+                    currentTheme === 'matrix'
+                      ? 'text-green-500 hover:text-green-400'
+                      : 'text-primary-600 hover:text-primary-700'
+                  } mr-4 flex items-center`}
                 >
                   <ArrowLeft className="w-5 h-5 mr-1" />
                   Back to Domains
                 </button>
                 <div className="flex items-center">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-3 text-white">
+                  <div className={`w-10 h-10 ${
+                    currentTheme === 'matrix'
+                      ? 'bg-black border-2 border-green-500'
+                      : `bg-gradient-to-br from-primary-400 to-primary-600`
+                  } rounded-xl flex items-center justify-center mr-3 text-white shadow-md`}>
                     {domainIcons[selectedDomain.id as keyof typeof domainIcons]}
                   </div>
                   <div>
-                    <h2 className="text-2xl font-semibold text-gray-900">
+                    <h2 className={`text-2xl font-semibold ${
+                      currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-900'
+                    }`}>
                       {selectedDomain.name}
                     </h2>
-                    <p className="text-sm text-gray-500">
+                    <p className={`text-sm ${
+                      currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-500'
+                    }`}>
                       Domain {selectedDomain.id}
                     </p>
                   </div>
                 </div>
               </div>
               {randomizedQuestions.length > 0 && (
-                <div className="text-sm text-gray-500">
+                <div className={`text-sm font-medium ${
+                  currentTheme === 'matrix' ? 'text-green-500' : 'text-primary-600'
+                }`}>
                   Score: {score}/{currentQuestion + 1}
                 </div>
               )}
@@ -243,20 +297,28 @@ const Home: React.FC = () => {
             <div className="flex space-x-4 mb-6">
               <button
                 onClick={() => setActiveTab('practice')}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={`px-4 py-2 rounded-lg transition-all duration-300 ${
                   activeTab === 'practice'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? currentTheme === 'matrix'
+                      ? 'bg-black border-2 border-green-500 text-green-500'
+                      : `bg-gradient-to-r ${currentThemeData.gradients.primary} text-white shadow-md`
+                    : currentTheme === 'matrix'
+                      ? 'bg-black/50 text-green-600 hover:bg-black/70 border border-green-600'
+                      : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                 }`}
               >
                 Practice Questions
               </button>
               <button
                 onClick={() => setActiveTab('flashcards')}
-                className={`px-4 py-2 rounded-lg transition-colors ${
+                className={`px-4 py-2 rounded-lg transition-all duration-300 ${
                   activeTab === 'flashcards'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? currentTheme === 'matrix'
+                      ? 'bg-black border-2 border-green-500 text-green-500'
+                      : `bg-gradient-to-r ${currentThemeData.gradients.primary} text-white shadow-md`
+                    : currentTheme === 'matrix'
+                      ? 'bg-black/50 text-green-600 hover:bg-black/70 border border-green-600'
+                      : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                 }`}
               >
                 Flash Cards
@@ -273,14 +335,20 @@ const Home: React.FC = () => {
                   <div className="mb-6">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-4">
-                        <p className="text-gray-600">
+                        <p className={`${
+                          currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
+                        }`}>
                           Question {currentQuestion + 1} of {randomizedQuestions.length}
                         </p>
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-green-600">
+                          <span className={`text-sm ${
+                            currentTheme === 'matrix' ? 'text-green-500' : 'text-green-600'
+                          }`}>
                             Correct: {correctAnswers.size}
                           </span>
-                          <span className="text-sm text-gray-600">
+                          <span className={`text-sm ${
+                            currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-600'
+                          }`}>
                             | Answered: {answeredQuestions.size}
                           </span>
                         </div>
@@ -289,7 +357,9 @@ const Home: React.FC = () => {
 
                     <div className="flex gap-6">
                       <div className="flex-1">
-                        <p className="text-xl font-medium text-gray-900 mb-4">
+                        <p className={`text-xl font-medium mb-4 ${
+                          currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
+                        }`}>
                           {randomizedQuestions[currentQuestion].question}
                         </p>
                         <div className="space-y-3">
@@ -299,15 +369,25 @@ const Home: React.FC = () => {
                                 key={index}
                                 onClick={() => handleAnswerSelect(index)}
                                 className={`w-full text-left p-3 rounded-lg border transition-all duration-200 ${
-                                  selectedAnswer === index
-                                    ? showExplanation
-                                      ? index === randomizedQuestions[currentQuestion].correctAnswer
-                                        ? "bg-green-100 border-green-500"
-                                        : "bg-red-100 border-red-500"
-                                      : "bg-blue-100 border-blue-500"
-                                    : showExplanation && index === randomizedQuestions[currentQuestion].correctAnswer
-                                      ? "bg-green-100 border-green-500"
-                                      : "border-gray-300 hover:border-gray-400"
+                                  currentTheme === 'matrix'
+                                    ? selectedAnswer === index
+                                      ? showExplanation
+                                        ? index === randomizedQuestions[currentQuestion].correctAnswer
+                                          ? "bg-black/80 border-green-500 text-green-400"
+                                          : "bg-black/80 border-red-500 text-red-400"
+                                        : "bg-black/80 border-green-500 text-green-400"
+                                      : showExplanation && index === randomizedQuestions[currentQuestion].correctAnswer
+                                        ? "bg-black/80 border-green-500 text-green-400"
+                                        : "bg-black/60 border-green-700 hover:border-green-500 text-green-500"
+                                    : selectedAnswer === index
+                                      ? showExplanation
+                                        ? index === randomizedQuestions[currentQuestion].correctAnswer
+                                          ? "bg-gradient-to-r from-success-200 to-success-300 border-success-500 shadow-md"
+                                          : "bg-gradient-to-r from-error-200 to-error-300 border-error-500 shadow-md"
+                                        : "bg-gradient-to-r from-primary-200 to-primary-300 border-primary-500 shadow-md"
+                                      : showExplanation && index === randomizedQuestions[currentQuestion].correctAnswer
+                                        ? "bg-gradient-to-r from-success-200 to-success-300 border-success-500 shadow-md"
+                                        : "border-gray-300 hover:border-gray-400 bg-white"
                                 }`}
                                 disabled={showExplanation}
                                 whileHover={{ scale: 1.02 }}
@@ -317,9 +397,13 @@ const Home: React.FC = () => {
                                   {showExplanation && (
                                     <span className="mr-2">
                                       {index === randomizedQuestions[currentQuestion].correctAnswer ? (
-                                        <CheckCircle className="w-5 h-5 text-green-500" />
+                                        <CheckCircle className={`w-5 h-5 ${
+                                          currentTheme === 'matrix' ? 'text-green-500' : 'text-success-600'
+                                        }`} />
                                       ) : selectedAnswer === index ? (
-                                        <XCircle className="w-5 h-5 text-red-500" />
+                                        <XCircle className={`w-5 h-5 ${
+                                          currentTheme === 'matrix' ? 'text-red-500' : 'text-error-600'
+                                        }`} />
                                       ) : null}
                                     </span>
                                   )}
@@ -336,10 +420,14 @@ const Home: React.FC = () => {
                             animate={{ opacity: 1, y: 0 }}
                             className="mt-6"
                           >
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            <h3 className={`text-lg font-semibold mb-2 ${
+                              currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
+                            }`}>
                               Explanation
                             </h3>
-                            <p className="text-gray-700">
+                            <p className={`${
+                              currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-700'
+                            }`}>
                               {randomizedQuestions[currentQuestion].explanation}
                             </p>
                           </motion.div>
@@ -350,9 +438,13 @@ const Home: React.FC = () => {
                             onClick={previousQuestion}
                             disabled={currentQuestion === 0}
                             className={`px-6 py-2 rounded-lg transition-colors ${
-                              currentQuestion === 0
-                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                              currentTheme === 'matrix'
+                                ? currentQuestion === 0
+                                  ? 'bg-black/50 text-green-800 cursor-not-allowed border border-green-800'
+                                  : 'bg-black/60 text-green-500 hover:bg-black/70 border border-green-600'
+                                : currentQuestion === 0
+                                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                             }`}
                           >
                             Previous
@@ -360,7 +452,11 @@ const Home: React.FC = () => {
                           {showExplanation && currentQuestion < randomizedQuestions.length - 1 && (
                             <button
                               onClick={nextQuestion}
-                              className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                              className={`px-6 py-2 rounded-lg transition-all duration-300 ${
+                                currentTheme === 'matrix'
+                                  ? 'bg-black border-2 border-green-500 text-green-500 hover:border-green-400'
+                                  : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md'
+                              }`}
                             >
                               Next Question
                             </button>
@@ -369,17 +465,31 @@ const Home: React.FC = () => {
                       </div>
 
                       {/* Fixed Right Sidebar */}
-                      <div className="w-64 flex-shrink-0 fixed right-8 top-32 bottom-8 flex flex-col bg-white rounded-xl shadow-lg p-4 overflow-auto">
+                      <div className={`w-64 flex-shrink-0 fixed right-8 top-32 bottom-8 flex flex-col rounded-xl shadow-lg p-4 overflow-auto ${
+                        currentTheme === 'matrix'
+                          ? 'bg-black/80 border border-green-500'
+                          : 'bg-white'
+                      }`}>
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-gray-600">Progress</span>
-                            <span className="text-sm text-blue-600 font-medium">
+                            <span className={`text-sm font-medium ${
+                              currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
+                            }`}>Progress</span>
+                            <span className={`text-sm font-medium ${
+                              currentTheme === 'matrix' ? 'text-green-400' : 'text-blue-600'
+                            }`}>
                               {Math.round((answeredQuestions.size / randomizedQuestions.length) * 100)}%
                             </span>
                           </div>
-                          <div className="w-full h-1.5 bg-gray-200 rounded-full">
+                          <div className={`w-full h-1.5 rounded-full ${
+                            currentTheme === 'matrix' ? 'bg-green-900' : 'bg-gray-200'
+                          }`}>
                             <div 
-                              className="h-full bg-blue-600 rounded-full transition-all duration-300"
+                              className={`h-full rounded-full transition-all duration-300 shadow-sm ${
+                                currentTheme === 'matrix'
+                                  ? 'bg-green-500'
+                                  : 'bg-gradient-to-r from-primary-500 to-primary-600'
+                              }`}
                               style={{ width: `${(answeredQuestions.size / randomizedQuestions.length) * 100}%` }}
                             />
                           </div>
@@ -387,8 +497,12 @@ const Home: React.FC = () => {
 
                         <div className="mb-4">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-gray-600">Score</span>
-                            <span className="text-sm text-green-600 font-medium">
+                            <span className={`text-sm font-medium ${
+                              currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
+                            }`}>Score</span>
+                            <span className={`text-sm font-medium ${
+                              currentTheme === 'matrix' ? 'text-green-400' : 'text-green-600'
+                            }`}>
                               {correctAnswers.size}/{answeredQuestions.size}
                             </span>
                           </div>
@@ -401,13 +515,21 @@ const Home: React.FC = () => {
                                 key={index}
                                 onClick={() => jumpToQuestion(index)}
                                 className={`p-2 rounded-lg text-sm font-medium transition-colors ${
-                                  index === currentQuestion
-                                    ? 'bg-blue-600 text-white'
-                                    : answeredQuestions.has(index)
-                                      ? correctAnswers.has(index)
-                                        ? 'bg-green-100 text-green-700'
-                                        : 'bg-red-100 text-red-700'
-                                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                  currentTheme === 'matrix'
+                                    ? index === currentQuestion
+                                      ? 'bg-black border-2 border-green-500 text-green-400'
+                                      : answeredQuestions.has(index)
+                                        ? correctAnswers.has(index)
+                                          ? 'bg-black/80 border border-green-500 text-green-500'
+                                          : 'bg-black/80 border border-red-500 text-red-500'
+                                        : 'bg-black/60 border border-green-700 text-green-600 hover:border-green-500'
+                                    : index === currentQuestion
+                                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md'
+                                      : answeredQuestions.has(index)
+                                        ? correctAnswers.has(index)
+                                          ? 'bg-gradient-to-r from-success-200 to-success-300 text-success-700 shadow-md'
+                                          : 'bg-gradient-to-r from-error-200 to-error-300 text-error-700 shadow-md'
+                                        : 'bg-white text-gray-600 hover:bg-gray-100'
                                 }`}
                               >
                                 {index + 1}
@@ -416,14 +538,26 @@ const Home: React.FC = () => {
                           </div>
                         </div>
 
-                        <div className="mt-4 pt-4 border-t border-gray-200">
-                          <div className="flex items-center justify-between text-xs text-gray-500">
+                        <div className={`mt-4 pt-4 border-t ${
+                          currentTheme === 'matrix' ? 'border-green-800' : 'border-gray-200'
+                        }`}>
+                          <div className={`flex items-center justify-between text-xs ${
+                            currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-500'
+                          }`}>
                             <div className="flex items-center">
-                              <div className="w-3 h-3 bg-green-100 rounded mr-1"></div>
+                              <div className={`w-3 h-3 rounded mr-1 shadow-sm ${
+                                currentTheme === 'matrix'
+                                  ? 'bg-green-500'
+                                  : 'bg-gradient-to-r from-success-200 to-success-300'
+                              }`}></div>
                               Correct
                             </div>
                             <div className="flex items-center">
-                              <div className="w-3 h-3 bg-red-100 rounded mr-1"></div>
+                              <div className={`w-3 h-3 rounded mr-1 shadow-sm ${
+                                currentTheme === 'matrix'
+                                  ? 'bg-red-500'
+                                  : 'bg-gradient-to-r from-error-200 to-error-300'
+                              }`}></div>
                               Incorrect
                             </div>
                           </div>
