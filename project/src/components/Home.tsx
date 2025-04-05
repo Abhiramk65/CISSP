@@ -376,7 +376,7 @@ const Home: React.FC = () => {
                     </div>
 
                     <div className="flex gap-6">
-                      <div className="flex-1">
+                      <div className="flex-1 lg:mr-64">
                         <p className={`text-xl font-medium mb-4 ${
                           currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
                         }`}>
@@ -484,12 +484,12 @@ const Home: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* Fixed Right Sidebar */}
-                      <div className={`w-64 flex-shrink-0 fixed right-8 top-32 bottom-8 flex flex-col rounded-xl shadow-lg p-4 overflow-auto ${
+                      {/* Responsive Sidebar */}
+                      <div className={`w-64 flex-shrink-0 lg:fixed lg:right-8 lg:top-32 lg:bottom-8 flex flex-col rounded-xl shadow-lg p-4 overflow-auto ${
                         currentTheme === 'matrix'
                           ? 'bg-black/80 border border-green-500'
                           : 'bg-white'
-                      }`}>
+                      } z-20`}>
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-2">
                             <span className={`text-sm font-medium ${
