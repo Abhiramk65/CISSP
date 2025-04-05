@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, ArrowLeft, CheckCircle, XCircle, Brain, Target, Clock, Users, Lock, Network, Key, Bug, Code, AlertCircle } from 'lucide-react';
+import { Shield, ArrowLeft, CheckCircle, XCircle, Brain, Target, Clock, Users, Lock, Network, Key, Bug, Code, AlertCircle, PieChart, BarChart, Award } from 'lucide-react';
 import { Domain, Question, FlashCard } from '../domains/types';
 import { domains } from '../domains';
 import { shuffleArray, randomizeQuestion } from '../domains/utils';
@@ -32,6 +32,14 @@ const Home: React.FC = () => {
   const [correctAnswers, setCorrectAnswers] = useState<Set<number>>(new Set());
   const [currentTheme, setCurrentTheme] = useState<string>('default');
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: number }>({});
+  const [showResults, setShowResults] = useState<boolean>(false);
+  const [analysisData, setAnalysisData] = useState<{
+    timeSpent: number;
+    startTime: number | null;
+  }>({
+    timeSpent: 0,
+    startTime: null
+  });
 
   const handleDomainSelect = (domain: Domain) => {
     setSelectedDomain(domain);
@@ -42,6 +50,11 @@ const Home: React.FC = () => {
     setAnsweredQuestions(new Set());
     setCorrectAnswers(new Set());
     setSelectedAnswers({});
+    setShowResults(false);
+    setAnalysisData({
+      timeSpent: 0,
+      startTime: Date.now()
+    });
     
     if (domain.questions && domain.questions.length > 0) {
       const shuffledQuestions = shuffleArray(domain.questions).map(randomizeQuestion);
@@ -67,6 +80,12 @@ const Home: React.FC = () => {
       setCorrectAnswers(new Set([...correctAnswers, currentQuestion]));
     }
     setAnsweredQuestions(new Set([...answeredQuestions, currentQuestion]));
+
+    setTimeout(() => {
+      if (currentQuestion < randomizedQuestions.length - 1) {
+        nextQuestion();
+      }
+    }, 1500);
   };
 
   const nextQuestion = () => {
@@ -89,6 +108,37 @@ const Home: React.FC = () => {
     setSelectedAnswer(selectedAnswers[index] ?? null);
   };
 
+  const handleSubmit = () => {
+    if (analysisData.startTime) {
+      setAnalysisData(prev => ({
+        ...prev,
+        timeSpent: Math.floor((Date.now() - prev.startTime!) / 1000)
+      }));
+    }
+    setShowResults(true);
+  };
+
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}m ${remainingSeconds}s`;
+  };
+
+  const calculatePerformanceMetrics = () => {
+    const totalQuestions = randomizedQuestions.length;
+    const correctCount = correctAnswers.size;
+    const incorrectCount = answeredQuestions.size - correctCount;
+    const accuracy = (correctCount / totalQuestions) * 100;
+    
+    return {
+      totalQuestions,
+      correctCount,
+      incorrectCount,
+      accuracy,
+      timePerQuestion: analysisData.timeSpent / totalQuestions
+    };
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -108,6 +158,41 @@ const Home: React.FC = () => {
   };
 
   const currentThemeData = themes.find(t => t.id === currentTheme) || themes[0];
+
+  const getAnswerButtonStyle = (
+    theme: string,
+    isSelected: boolean,
+    showingExplanation: boolean,
+    isCorrect: boolean
+  ): string => {
+    if (theme === 'matrix') {
+      if (isSelected) {
+        if (showingExplanation) {
+          return isCorrect
+            ? "bg-black/80 border-green-500 text-green-400"
+            : "bg-black/80 border-red-500 text-red-400";
+        }
+        return "bg-black/80 border-green-500 text-green-400";
+      }
+      if (showingExplanation && isCorrect) {
+        return "bg-black/80 border-green-500 text-green-400";
+      }
+      return "bg-black/60 border-green-700 hover:border-green-500 text-green-500";
+    }
+
+    if (isSelected) {
+      if (showingExplanation) {
+        return isCorrect
+          ? "bg-gradient-to-r from-success-200 to-success-300 border-success-500 shadow-md"
+          : "bg-gradient-to-r from-error-200 to-error-300 border-error-500 shadow-md";
+      }
+      return "bg-gradient-to-r from-primary-200 to-primary-300 border-primary-500 shadow-md";
+    }
+    if (showingExplanation && isCorrect) {
+      return "bg-gradient-to-r from-success-200 to-success-300 border-success-500 shadow-md";
+    }
+    return "border-gray-300 hover:border-gray-400 bg-white";
+  };
 
   const renderDomainOverview = () => (
     <motion.div 
@@ -236,6 +321,479 @@ const Home: React.FC = () => {
     </motion.div>
   );
 
+  const renderResultsScreen = () => {
+    const metrics = calculatePerformanceMetrics();
+    
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="space-y-8"
+      >
+        <div className={`text-center ${
+          currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
+        }`}>
+          <h2 className="text-3xl font-bold mb-2">Domain Complete!</h2>
+          <p className="text-lg">Here's how you performed</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Score Card */}
+          <div className={`p-6 rounded-xl shadow-lg ${
+            currentTheme === 'matrix'
+              ? 'bg-black/80 border border-green-500'
+              : 'bg-white'
+          }`}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className={`text-lg font-semibold ${
+                currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-900'
+              }`}>Score</h3>
+              <Award className={`w-6 h-6 ${
+                currentTheme === 'matrix' ? 'text-green-500' : 'text-primary-600'
+              }`} />
+            </div>
+            <div className={`text-3xl font-bold mb-2 ${
+              currentTheme === 'matrix' ? 'text-green-400' : 'text-primary-600'
+            }`}>
+              {Math.round(metrics.accuracy)}%
+            </div>
+            <p className={`text-sm ${
+              currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-600'
+            }`}>
+              {metrics.correctCount} correct out of {metrics.totalQuestions}
+            </p>
+          </div>
+
+          {/* Time Card */}
+          <div className={`p-6 rounded-xl shadow-lg ${
+            currentTheme === 'matrix'
+              ? 'bg-black/80 border border-green-500'
+              : 'bg-white'
+          }`}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className={`text-lg font-semibold ${
+                currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-900'
+              }`}>Time</h3>
+              <Clock className={`w-6 h-6 ${
+                currentTheme === 'matrix' ? 'text-green-500' : 'text-primary-600'
+              }`} />
+            </div>
+            <div className={`text-3xl font-bold mb-2 ${
+              currentTheme === 'matrix' ? 'text-green-400' : 'text-primary-600'
+            }`}>
+              {formatTime(analysisData.timeSpent)}
+            </div>
+            <p className={`text-sm ${
+              currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-600'
+            }`}>
+              ~{Math.round(metrics.timePerQuestion)}s per question
+            </p>
+          </div>
+
+          {/* Performance Card */}
+          <div className={`p-6 rounded-xl shadow-lg ${
+            currentTheme === 'matrix'
+              ? 'bg-black/80 border border-green-500'
+              : 'bg-white'
+          }`}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className={`text-lg font-semibold ${
+                currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-900'
+              }`}>Performance</h3>
+              <BarChart className={`w-6 h-6 ${
+                currentTheme === 'matrix' ? 'text-green-500' : 'text-primary-600'
+              }`} />
+            </div>
+            <div className={`text-3xl font-bold mb-2 ${
+              currentTheme === 'matrix' ? 'text-green-400' : 'text-primary-600'
+            }`}>
+              {metrics.correctCount}/{metrics.totalQuestions}
+            </div>
+            <p className={`text-sm ${
+              currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-600'
+            }`}>
+              {metrics.incorrectCount} incorrect answers
+            </p>
+          </div>
+        </div>
+
+        {/* Question Analysis */}
+        <div className={`mt-8 p-6 rounded-xl shadow-lg ${
+          currentTheme === 'matrix'
+            ? 'bg-black/80 border border-green-500'
+            : 'bg-white'
+        }`}>
+          <h3 className={`text-xl font-semibold mb-4 ${
+            currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-900'
+          }`}>Question Analysis</h3>
+          <div className="space-y-6">
+            {randomizedQuestions.map((question, index) => (
+              <div key={index} className={`p-4 rounded-lg ${
+                currentTheme === 'matrix'
+                  ? 'bg-black/60 border border-green-700'
+                  : 'bg-gray-50'
+              }`}>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className={`font-medium mb-2 ${
+                        currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
+                      }`}>
+                        {index + 1}. {question.question}
+                      </p>
+                      <div className="ml-4">
+                        {correctAnswers.has(index) ? (
+                          <CheckCircle className={`w-6 h-6 ${
+                            currentTheme === 'matrix' ? 'text-green-500' : 'text-success-600'
+                          }`} />
+                        ) : (
+                          <XCircle className={`w-6 h-6 ${
+                            currentTheme === 'matrix' ? 'text-red-500' : 'text-error-600'
+                          }`} />
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="mt-3 space-y-2">
+                      {question.options.map((option, optionIndex) => (
+                        <div key={optionIndex} className={`p-2 rounded ${
+                          currentTheme === 'matrix'
+                            ? optionIndex === question.correctAnswer
+                              ? 'bg-black/80 border border-green-500 text-green-400'
+                              : optionIndex === selectedAnswers[index]
+                                ? 'bg-black/80 border border-red-500 text-red-400'
+                                : 'bg-black/40 border border-green-900 text-green-600'
+                            : optionIndex === question.correctAnswer
+                              ? 'bg-success-50 border border-success-200 text-success-700'
+                              : optionIndex === selectedAnswers[index]
+                                ? 'bg-error-50 border border-error-200 text-error-700'
+                                : 'bg-gray-50 border border-gray-200 text-gray-600'
+                        }`}>
+                          <div className="flex items-center">
+                            <div className="mr-2">
+                              {optionIndex === question.correctAnswer ? (
+                                <CheckCircle className={`w-4 h-4 ${
+                                  currentTheme === 'matrix' ? 'text-green-500' : 'text-success-600'
+                                }`} />
+                              ) : optionIndex === selectedAnswers[index] ? (
+                                <XCircle className={`w-4 h-4 ${
+                                  currentTheme === 'matrix' ? 'text-red-500' : 'text-error-600'
+                                }`} />
+                              ) : (
+                                <div className={`w-4 h-4 rounded-full border ${
+                                  currentTheme === 'matrix'
+                                    ? 'border-green-700'
+                                    : 'border-gray-300'
+                                }`} />
+                              )}
+                            </div>
+                            {option}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {question.explanation && (
+                      <div className={`mt-3 text-sm ${
+                        currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-600'
+                      }`}>
+                        <span className={`font-medium ${
+                          currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-700'
+                        }`}>Explanation: </span>
+                        {question.explanation}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex justify-center space-x-4">
+          <button
+            onClick={() => setSelectedDomain(null)}
+            className={`px-6 py-3 rounded-lg transition-all duration-300 ${
+              currentTheme === 'matrix'
+                ? 'bg-black/60 text-green-500 hover:bg-black/70 border border-green-600'
+                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+            }`}
+          >
+            Back to Domains
+          </button>
+          <button
+            onClick={() => {
+              handleDomainSelect(selectedDomain!);
+            }}
+            className={`px-6 py-3 rounded-lg transition-all duration-300 ${
+              currentTheme === 'matrix'
+                ? 'bg-black border-2 border-green-500 text-green-500 hover:border-green-400'
+                : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md'
+            }`}
+          >
+            Retry Domain
+          </button>
+        </div>
+      </motion.div>
+    );
+  };
+
+  const renderSubmitButton = () => {
+    if (answeredQuestions.size === randomizedQuestions.length && !showResults) {
+      return (
+        <div className="mt-8 flex justify-center">
+          <button
+            onClick={handleSubmit}
+            className={`px-8 py-3 rounded-lg transition-all duration-300 ${
+              currentTheme === 'matrix'
+                ? 'bg-black border-2 border-green-500 text-green-500 hover:border-green-400'
+                : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md'
+            }`}
+          >
+            Submit and View Results
+          </button>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderPracticeContent = () => {
+    if (showResults) {
+      return renderResultsScreen();
+    }
+
+    return (
+      <motion.div 
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+      >
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-4">
+              <p className={`${
+                currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
+              }`}>
+                Question {currentQuestion + 1} of {randomizedQuestions.length}
+              </p>
+              <div className="flex items-center space-x-2">
+                <span className={`text-sm ${
+                  currentTheme === 'matrix' ? 'text-green-500' : 'text-green-600'
+                }`}>
+                  Correct: {correctAnswers.size}
+                </span>
+                <span className={`text-sm ${
+                  currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-600'
+                }`}>
+                  | Answered: {answeredQuestions.size}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex gap-6">
+            <div className="flex-1 lg:mr-64">
+              <p className={`text-xl font-medium mb-4 ${
+                currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
+              }`}>
+                {randomizedQuestions[currentQuestion].question}
+              </p>
+              <div className="space-y-3">
+                {randomizedQuestions[currentQuestion].options.map(
+                  (option, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => handleAnswerSelect(index)}
+                      className={`w-full text-left p-3 rounded-lg border transition-all duration-200 ${
+                        getAnswerButtonStyle(
+                          currentTheme,
+                          selectedAnswer === index,
+                          showExplanation,
+                          index === randomizedQuestions[currentQuestion].correctAnswer
+                        )
+                      }`}
+                      disabled={showExplanation}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className="flex items-center">
+                        {showExplanation && (
+                          <span className="mr-2">
+                            {index === randomizedQuestions[currentQuestion].correctAnswer ? (
+                              <CheckCircle className={`w-5 h-5 ${
+                                currentTheme === 'matrix' ? 'text-green-500' : 'text-success-600'
+                              }`} />
+                            ) : selectedAnswer === index ? (
+                              <XCircle className={`w-5 h-5 ${
+                                currentTheme === 'matrix' ? 'text-red-500' : 'text-error-600'
+                              }`} />
+                            ) : null}
+                          </span>
+                        )}
+                        {option}
+                      </div>
+                    </motion.button>
+                  )
+                )}
+              </div>
+
+              {showExplanation && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6"
+                >
+                  <h3 className={`text-lg font-semibold mb-2 ${
+                    currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
+                  }`}>
+                    Explanation
+                  </h3>
+                  <p className={`${
+                    currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-700'
+                  }`}>
+                    {randomizedQuestions[currentQuestion].explanation}
+                  </p>
+                </motion.div>
+              )}
+
+              <div className="flex justify-between mt-6">
+                <button
+                  onClick={previousQuestion}
+                  disabled={currentQuestion === 0}
+                  className={`px-6 py-2 rounded-lg transition-colors ${
+                    currentTheme === 'matrix'
+                      ? currentQuestion === 0
+                        ? 'bg-black/50 text-green-800 cursor-not-allowed border border-green-800'
+                        : 'bg-black/60 text-green-500 hover:bg-black/70 border border-green-600'
+                      : currentQuestion === 0
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  Previous
+                </button>
+                {showExplanation && currentQuestion < randomizedQuestions.length - 1 && (
+                  <button
+                    onClick={nextQuestion}
+                    className={`px-6 py-2 rounded-lg transition-all duration-300 ${
+                      currentTheme === 'matrix'
+                        ? 'bg-black border-2 border-green-500 text-green-500 hover:border-green-400'
+                        : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md'
+                    }`}
+                  >
+                    Next Question
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Responsive Sidebar */}
+            <div className={`w-64 flex-shrink-0 lg:fixed lg:right-8 lg:top-32 lg:bottom-8 flex flex-col rounded-xl shadow-lg p-4 overflow-auto ${
+              currentTheme === 'matrix'
+                ? 'bg-black/80 border border-green-500'
+                : 'bg-white'
+            } z-20`}>
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className={`text-sm font-medium ${
+                    currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
+                  }`}>Progress</span>
+                  <span className={`text-sm font-medium ${
+                    currentTheme === 'matrix' ? 'text-green-400' : 'text-blue-600'
+                  }`}>
+                    {Math.round((answeredQuestions.size / randomizedQuestions.length) * 100)}%
+                  </span>
+                </div>
+                <div className={`w-full h-1.5 rounded-full ${
+                  currentTheme === 'matrix' ? 'bg-green-900' : 'bg-gray-200'
+                }`}>
+                  <div 
+                    className={`h-full rounded-full transition-all duration-300 shadow-sm ${
+                      currentTheme === 'matrix'
+                        ? 'bg-green-500'
+                        : 'bg-gradient-to-r from-primary-500 to-primary-600'
+                    }`}
+                    style={{ width: `${(answeredQuestions.size / randomizedQuestions.length) * 100}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm font-medium ${
+                    currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
+                  }`}>Score</span>
+                  <span className={`text-sm font-medium ${
+                    currentTheme === 'matrix' ? 'text-green-400' : 'text-green-600'
+                  }`}>
+                    {correctAnswers.size}/{answeredQuestions.size}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex-1 overflow-y-auto">
+                <div className="grid grid-cols-5 gap-2">
+                  {randomizedQuestions.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => jumpToQuestion(index)}
+                      className={`p-2 rounded-lg text-sm font-medium transition-colors ${
+                        currentTheme === 'matrix'
+                          ? index === currentQuestion
+                            ? 'bg-black border-2 border-green-500 text-green-400'
+                            : answeredQuestions.has(index)
+                              ? correctAnswers.has(index)
+                                ? 'bg-black/80 border border-green-500 text-green-500'
+                                : 'bg-black/80 border border-red-500 text-red-500'
+                              : 'bg-black/60 border border-green-700 text-green-600 hover:border-green-500'
+                          : index === currentQuestion
+                            ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md'
+                            : answeredQuestions.has(index)
+                              ? correctAnswers.has(index)
+                                ? 'bg-gradient-to-r from-success-200 to-success-300 text-success-700 shadow-md'
+                                : 'bg-gradient-to-r from-error-200 to-error-300 text-error-700 shadow-md'
+                              : 'bg-white text-gray-600 hover:bg-gray-100'
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className={`mt-4 pt-4 border-t ${
+                currentTheme === 'matrix' ? 'border-green-800' : 'border-gray-200'
+              }`}>
+                <div className={`flex items-center justify-between text-xs ${
+                  currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-500'
+                }`}>
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 rounded mr-1 shadow-sm ${
+                      currentTheme === 'matrix'
+                        ? 'bg-green-500'
+                        : 'bg-gradient-to-r from-success-200 to-success-300'
+                    }`}></div>
+                    Correct
+                  </div>
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 rounded mr-1 shadow-sm ${
+                      currentTheme === 'matrix'
+                        ? 'bg-red-500'
+                        : 'bg-gradient-to-r from-error-200 to-error-300'
+                    }`}></div>
+                    Incorrect
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {renderSubmitButton()}
+        </div>
+      </motion.div>
+    );
+  };
+
   return (
     <div className={`min-h-screen bg-gradient-to-br ${currentThemeData.gradients.background} relative`}>
       {currentTheme === 'matrix' && <DigitalRain />}
@@ -347,245 +905,7 @@ const Home: React.FC = () => {
 
             <AnimatePresence mode="wait">
               {activeTab === 'practice' && randomizedQuestions.length > 0 ? (
-                <motion.div 
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                >
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-4">
-                        <p className={`${
-                          currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
-                        }`}>
-                          Question {currentQuestion + 1} of {randomizedQuestions.length}
-                        </p>
-                        <div className="flex items-center space-x-2">
-                          <span className={`text-sm ${
-                            currentTheme === 'matrix' ? 'text-green-500' : 'text-green-600'
-                          }`}>
-                            Correct: {correctAnswers.size}
-                          </span>
-                          <span className={`text-sm ${
-                            currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-600'
-                          }`}>
-                            | Answered: {answeredQuestions.size}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-6">
-                      <div className="flex-1 lg:mr-64">
-                        <p className={`text-xl font-medium mb-4 ${
-                          currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
-                        }`}>
-                          {randomizedQuestions[currentQuestion].question}
-                        </p>
-                        <div className="space-y-3">
-                          {randomizedQuestions[currentQuestion].options.map(
-                            (option, index) => (
-                              <motion.button
-                                key={index}
-                                onClick={() => handleAnswerSelect(index)}
-                                className={`w-full text-left p-3 rounded-lg border transition-all duration-200 ${
-                                  currentTheme === 'matrix'
-                                    ? selectedAnswer === index
-                                      ? showExplanation
-                                        ? index === randomizedQuestions[currentQuestion].correctAnswer
-                                          ? "bg-black/80 border-green-500 text-green-400"
-                                          : "bg-black/80 border-red-500 text-red-400"
-                                        : "bg-black/80 border-green-500 text-green-400"
-                                      : showExplanation && index === randomizedQuestions[currentQuestion].correctAnswer
-                                        ? "bg-black/80 border-green-500 text-green-400"
-                                        : "bg-black/60 border-green-700 hover:border-green-500 text-green-500"
-                                    : selectedAnswer === index
-                                      ? showExplanation
-                                        ? index === randomizedQuestions[currentQuestion].correctAnswer
-                                          ? "bg-gradient-to-r from-success-200 to-success-300 border-success-500 shadow-md"
-                                          : "bg-gradient-to-r from-error-200 to-error-300 border-error-500 shadow-md"
-                                        : "bg-gradient-to-r from-primary-200 to-primary-300 border-primary-500 shadow-md"
-                                      : showExplanation && index === randomizedQuestions[currentQuestion].correctAnswer
-                                        ? "bg-gradient-to-r from-success-200 to-success-300 border-success-500 shadow-md"
-                                        : "border-gray-300 hover:border-gray-400 bg-white"
-                                }`}
-                                disabled={showExplanation}
-                                whileHover={{ scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                              >
-                                <div className="flex items-center">
-                                  {showExplanation && (
-                                    <span className="mr-2">
-                                      {index === randomizedQuestions[currentQuestion].correctAnswer ? (
-                                        <CheckCircle className={`w-5 h-5 ${
-                                          currentTheme === 'matrix' ? 'text-green-500' : 'text-success-600'
-                                        }`} />
-                                      ) : selectedAnswer === index ? (
-                                        <XCircle className={`w-5 h-5 ${
-                                          currentTheme === 'matrix' ? 'text-red-500' : 'text-error-600'
-                                        }`} />
-                                      ) : null}
-                                    </span>
-                                  )}
-                                  {option}
-                                </div>
-                              </motion.button>
-                            )
-                          )}
-                        </div>
-
-                        {showExplanation && (
-                          <motion.div 
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="mt-6"
-                          >
-                            <h3 className={`text-lg font-semibold mb-2 ${
-                              currentTheme === 'matrix' ? 'text-green-400' : 'text-gray-900'
-                            }`}>
-                              Explanation
-                            </h3>
-                            <p className={`${
-                              currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-700'
-                            }`}>
-                              {randomizedQuestions[currentQuestion].explanation}
-                            </p>
-                          </motion.div>
-                        )}
-
-                        <div className="flex justify-between mt-6">
-                          <button
-                            onClick={previousQuestion}
-                            disabled={currentQuestion === 0}
-                            className={`px-6 py-2 rounded-lg transition-colors ${
-                              currentTheme === 'matrix'
-                                ? currentQuestion === 0
-                                  ? 'bg-black/50 text-green-800 cursor-not-allowed border border-green-800'
-                                  : 'bg-black/60 text-green-500 hover:bg-black/70 border border-green-600'
-                                : currentQuestion === 0
-                                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                            }`}
-                          >
-                            Previous
-                          </button>
-                          {showExplanation && currentQuestion < randomizedQuestions.length - 1 && (
-                            <button
-                              onClick={nextQuestion}
-                              className={`px-6 py-2 rounded-lg transition-all duration-300 ${
-                                currentTheme === 'matrix'
-                                  ? 'bg-black border-2 border-green-500 text-green-500 hover:border-green-400'
-                                  : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md'
-                              }`}
-                            >
-                              Next Question
-                            </button>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Responsive Sidebar */}
-                      <div className={`w-64 flex-shrink-0 lg:fixed lg:right-8 lg:top-32 lg:bottom-8 flex flex-col rounded-xl shadow-lg p-4 overflow-auto ${
-                        currentTheme === 'matrix'
-                          ? 'bg-black/80 border border-green-500'
-                          : 'bg-white'
-                      } z-20`}>
-                        <div className="mb-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className={`text-sm font-medium ${
-                              currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
-                            }`}>Progress</span>
-                            <span className={`text-sm font-medium ${
-                              currentTheme === 'matrix' ? 'text-green-400' : 'text-blue-600'
-                            }`}>
-                              {Math.round((answeredQuestions.size / randomizedQuestions.length) * 100)}%
-                            </span>
-                          </div>
-                          <div className={`w-full h-1.5 rounded-full ${
-                            currentTheme === 'matrix' ? 'bg-green-900' : 'bg-gray-200'
-                          }`}>
-                            <div 
-                              className={`h-full rounded-full transition-all duration-300 shadow-sm ${
-                                currentTheme === 'matrix'
-                                  ? 'bg-green-500'
-                                  : 'bg-gradient-to-r from-primary-500 to-primary-600'
-                              }`}
-                              style={{ width: `${(answeredQuestions.size / randomizedQuestions.length) * 100}%` }}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="mb-4">
-                          <div className="flex items-center justify-between">
-                            <span className={`text-sm font-medium ${
-                              currentTheme === 'matrix' ? 'text-green-500' : 'text-gray-600'
-                            }`}>Score</span>
-                            <span className={`text-sm font-medium ${
-                              currentTheme === 'matrix' ? 'text-green-400' : 'text-green-600'
-                            }`}>
-                              {correctAnswers.size}/{answeredQuestions.size}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="flex-1 overflow-y-auto">
-                          <div className="grid grid-cols-5 gap-2">
-                            {randomizedQuestions.map((_, index) => (
-                              <button
-                                key={index}
-                                onClick={() => jumpToQuestion(index)}
-                                className={`p-2 rounded-lg text-sm font-medium transition-colors ${
-                                  currentTheme === 'matrix'
-                                    ? index === currentQuestion
-                                      ? 'bg-black border-2 border-green-500 text-green-400'
-                                      : answeredQuestions.has(index)
-                                        ? correctAnswers.has(index)
-                                          ? 'bg-black/80 border border-green-500 text-green-500'
-                                          : 'bg-black/80 border border-red-500 text-red-500'
-                                        : 'bg-black/60 border border-green-700 text-green-600 hover:border-green-500'
-                                    : index === currentQuestion
-                                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md'
-                                      : answeredQuestions.has(index)
-                                        ? correctAnswers.has(index)
-                                          ? 'bg-gradient-to-r from-success-200 to-success-300 text-success-700 shadow-md'
-                                          : 'bg-gradient-to-r from-error-200 to-error-300 text-error-700 shadow-md'
-                                        : 'bg-white text-gray-600 hover:bg-gray-100'
-                                }`}
-                              >
-                                {index + 1}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <div className={`mt-4 pt-4 border-t ${
-                          currentTheme === 'matrix' ? 'border-green-800' : 'border-gray-200'
-                        }`}>
-                          <div className={`flex items-center justify-between text-xs ${
-                            currentTheme === 'matrix' ? 'text-green-600' : 'text-gray-500'
-                          }`}>
-                            <div className="flex items-center">
-                              <div className={`w-3 h-3 rounded mr-1 shadow-sm ${
-                                currentTheme === 'matrix'
-                                  ? 'bg-green-500'
-                                  : 'bg-gradient-to-r from-success-200 to-success-300'
-                              }`}></div>
-                              Correct
-                            </div>
-                            <div className="flex items-center">
-                              <div className={`w-3 h-3 rounded mr-1 shadow-sm ${
-                                currentTheme === 'matrix'
-                                  ? 'bg-red-500'
-                                  : 'bg-gradient-to-r from-error-200 to-error-300'
-                              }`}></div>
-                              Incorrect
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+                renderPracticeContent()
               ) : activeTab === 'practice' ? (
                 <motion.div 
                   initial={{ opacity: 0 }}
