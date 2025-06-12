@@ -571,5 +571,138 @@ export const domain4: Domain = {
       "explanation": "Employee education is crucial for preventing social engineering and phishing."
     }
   ],
-  flashCards: []
+  flashCards: [
+    {
+      "id": 1,
+      "front": "OSI Model",
+      "back": "The **Open Systems Interconnection (OSI) Reference Model** defines seven distinct layers that describe how data is communicated between systems and applications on a computer network. This layered approach simplifies understanding, design, and development of networking solutions. Data moves from Layer 7 (Application) down to Layer 1 (Physical), undergoing data encapsulation at each layer, and then moves back up at the destination through decapsulation. Each layer communicates exclusively with the layer immediately above and below it.",
+      "category": "Networking Models"
+    },
+    {
+      "id": 2,
+      "front": "TCP/IP Model",
+      "back": "The **Transmission Control Protocol/Internet Protocol (TCP/IP) model** is the most widely used network protocol suite today and is derived from the DARPA model. It roughly maps to the OSI model and forms the fundamental basis for the Internet and most organizational networks.",
+      "category": "Networking Models"
+    },
+    {
+      "id": 3,
+      "front": "Network Segmentation",
+      "back": "This is the practice of dividing a network into smaller, isolated subnetworks to manage traffic, improve performance, and enhance security. It enables administrators to block or detect suspicious traffic between segments, aligning with the zero trust security design principle.",
+      "category": "Network Design"
+    },
+    {
+      "id": 4,
+      "front": "DMZ (Demilitarized Zone)",
+      "back": "A **DMZ** is a network segment strategically located between a protected internal network and an untrusted external network (like the Internet). It acts as a buffer zone, typically hosting public-facing servers such as web, mail, and DNS servers, and is commonly secured by two firewalls.",
+      "category": "Network Design"
+    },
+    {
+      "id": 5,
+      "front": "Firewall",
+      "back": "A **firewall** is a network device used to filter traffic based on a defined set of rules, also known as filters or access control lists. It's typically deployed at the perimeter to prevent malicious traffic from entering a private network and can also segment internal departments.",
+      "category": "Network Security Controls"
+    },
+    {
+      "id": 6,
+      "front": "Converged Protocols",
+      "back": "These are modern network protocols that allow different types of communication to be transported over a single network infrastructure, often leveraging existing Ethernet or IP networks. Examples include Fibre Channel over Ethernet (FCoE), Multiprotocol Label Switching (MPLS), Voice over Internet Protocol (VoIP), and Internet Small Computer System Interface (iSCSI).",
+      "category": "Networking Protocols"
+    },
+    {
+      "id": 7,
+      "front": "Software-Defined Networks (SDN)",
+      "back": "**SDN** is an approach that allows network elements and architectures to be virtualized and managed rapidly through software and Application Programming Interfaces (APIs). This enables intelligent network functions like routing and load balancing to run on commodity hardware, similar to server virtualization.",
+      "category": "Network Technologies"
+    },
+    {
+      "id": 8,
+      "front": "Wireless Networks (Wi-Fi)",
+      "back": "**Wireless networks** transmit data through the air, making them extremely vulnerable to interception. Key security aspects include managing Service Set Identifiers (SSIDs), implementing authentication, and using strong encryption. Wired Equivalent Privacy (WEP) is considered insecure and should never be used.",
+      "category": "Network Technologies"
+    },
+    {
+      "id": 9,
+      "front": "Endpoint Security",
+      "back": "This concept emphasizes that each individual computing device must maintain local security, regardless of the network's overall security. Endpoints include desktops, laptops, servers, smartphones, tablets, IoT devices, and point-of-sale terminals. It views any weakness on a client or server as a risk to the entire organization.",
+      "category": "Security Concepts"
+    },
+    {
+      "id": 10,
+      "front": "VPN (Virtual Private Network)",
+      "back": "**VPNs** are based on encrypted tunneling, establishing a secure channel to exchange information over a potentially insecure intermediary network, such as the Internet. They provide authentication and data protection, creating a point-to-point secure solution.",
+      "category": "Network Security Controls"
+    },
+    {
+      "id": 11,
+      "front": "TLS (Transport Layer Security)",
+      "back": "**TLS** is an OSI Layer 4 (Transport) protocol that provides session-based encryption and authentication for secure communication between clients and servers, particularly over the Internet. It protects data in motion and relies on digital certificates to verify endpoint identities.",
+      "category": "Network Security Protocols"
+    },
+    {
+      "id": 12,
+      "front": "NAT (Network Address Translation)",
+      "back": "**NAT** is a security function often supported by firewalls and routers that protects the addressing scheme of a private network. It allows an organization to use private IP addresses internally while enabling multiple internal clients to access the Internet through a few public IP addresses.",
+      "category": "Network Security Controls"
+    },
+    {
+      "id": 13,
+      "front": "DoS (Denial of Service) Attack",
+      "back": "A **DoS attack** is a resource consumption attack designed to prevent legitimate users from accessing a system or service. It renders the target unable to respond to legitimate traffic by overwhelming it with bogus requests. A DDoS (Distributed Denial of Service) attack uses multiple compromised systems to launch the attack.",
+      "category": "Network Attacks"
+    },
+    {
+      "id": 14,
+      "front": "Eavesdropping",
+      "back": "**Eavesdropping** is a communication system attack where a malicious user or entity intercepts network transmissions to obtain content or learn information about communications. It's a passive attack, making it difficult to detect, and often relies on technologies like wireless sniffing.",
+      "category": "Network Attacks"
+    },
+    {
+      "id": 15,
+      "front": "Spoofing",
+      "back": "**Spoofing** is an attack where an attacker disguises their identity or the origin of data to gain unauthorized access, manipulate data, or deceive users. Examples include spoofing user identity, IP addresses, or domain names.",
+      "category": "Network Attacks"
+    },
+    {
+      "id": 16,
+      "front": "Traffic Flows (North-South vs. East-West)",
+      "back": "**North-South traffic** refers to communications between systems within a network and systems outside the network (e.g., Internet traffic).\n**East-West traffic** refers to communications between systems within the same network. Threat actors often exploit the relatively limited visibility and security controls in east-west traffic to move laterally after initial network penetration.",
+      "category": "Networking Concepts"
+    },
+    {
+      "id": 17,
+      "front": "Network Access Control (NAC)",
+      "back": "**NAC systems** are used to enforce a variety of network-related policies. **Pre-admission NAC** determines whether a system is permitted to join a network, while **Post-admission NAC** includes controls like firewalls and Intrusion Detection/Prevention Systems (IDS/IPS) that operate on devices already admitted to the network.",
+      "category": "Network Security Controls"
+    },
+    {
+      "id": 18,
+      "front": "Transmission Media",
+      "back": "These are the physical components used to carry information throughout a network, categorized as wired (e.g., copper, fiber optic cables) or wireless (e.g., radio waves). Security considerations include protecting wired media from physical tapping and wireless media from eavesdropping.",
+      "category": "Network Technologies"
+    },
+    {
+      "id": 19,
+      "front": "OSI Layers (Specific)",
+      "back": "•\n**Physical Layer (Layer 1)**: Deals with the physical transmission of raw bits over the network medium.\n•\n**Data Link Layer (Layer 2)**: Manages framing, error detection, and physical addressing (MAC addresses) for communication within a local network segment.\n•\n**Network Layer (Layer 3)**: Handles logical addressing (IP addresses) and routing of packets between different networks.\n•\n**Transport Layer (Layer 4)**: Provides reliable or unreliable end-to-end data transfer between applications, managing flow control and segmentation (TCP, UDP).\n•\n**Session Layer (Layer 5)**: Establishes, manages, and terminates communication sessions between applications.\n•\n**Presentation Layer (Layer 6)**: Deals with data formatting, encryption, and compression to ensure data is presented in a readable format for the application layer.\n•\n**Application Layer (Layer 7)**: Provides network services directly to end-user applications (e.g., HTTP, FTP, SMTP).",
+      "category": "Networking Models"
+    },
+    {
+      "id": 20,
+      "front": "Collision Domain",
+      "back": "A **collision domain** is a group of networked systems where simultaneous data transmission by any two or more devices can result in a collision on the shared medium. Network switches effectively reduce collision domains by creating a separate one for each port.",
+      "category": "Networking Concepts"
+    },
+    {
+      "id": 21,
+      "front": "Broadcast Domain",
+      "back": "A **broadcast domain** is a group of networked systems where all members receive a broadcast signal transmitted by any other member. Routers typically divide broadcast domains, preventing broadcasts from propagating further.",
+      "category": "Networking Concepts"
+    },
+    {
+      "id": 22,
+      "front": "Cryptosystem Goals",
+      "back": "Cryptosystems are designed to achieve key security objectives:\n•\n**Confidentiality**: Ensures data remains private and is not disclosed to unauthorized subjects.\n•\n**Integrity**: Guarantees that data has not been altered intentionally or unintentionally by unauthorized subjects.\n•\n**Authentication**: Verifies the claimed identity of a subject or the origin of an object.\n•\n**Nonrepudiation**: Provides undeniable proof that the sender of a message actually authored it, preventing them from denying it later.",
+      "category": "Cryptography"
+    }
+  ]
 }; 

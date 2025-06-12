@@ -607,6 +607,137 @@ export const domain2: Domain = {
     }
   ],
   flashCards: [
-
+    {
+      "id": 1,
+      "front": "Asset Security Domain Overview",
+      "back": "The **Asset Security** domain focuses on the collection, classification, handling, and protection of information assets throughout their life cycle. It also encompasses the management of physical and virtual assets like servers, endpoints, and network devices. Key concepts include data ownership, privacy, data security controls, and compliance requirements. This domain emphasizes that the appropriate level of protection is determined by the value of the information and any applicable regulations.",
+      "category": "Asset Security"
+    },
+    {
+      "id": 2,
+      "front": "Asset (Definition)",
+      "back": "An **asset** is anything within an environment that should be protected. It is anything useful or valuable to an organization, including people, partners, equipment, facilities, reputation, and information. For the CISSP exam, an 'asset' by itself typically refers to a tangible device, while 'data' is considered separately.",
+      "category": "Asset Security"
+    },
+    {
+      "id": 3,
+      "front": "Information Asset",
+      "back": "An **information asset** can be either the data itself or the device on which it is stored and used, or both. It is anything that exists in digital form, has intrinsic value to the organization, and to which access should be restricted. Information theft is a primary motivation for attackers, making inventory and protection of information assets (e.g., financial data, PII, PHI, intellectual property) critical.",
+      "category": "Asset Security"
+    },
+    {
+      "id": 4,
+      "front": "Data Classification (Purpose)",
+      "back": "**Data classification** is the process of assigning values or sensitivity levels to data to determine the appropriate amount of funds and resources that should be allocated for its protection. It helps in tailoring security controls, as highly classified data requires more stringent controls than unclassified data. Classification is an ongoing process due to continuous data creation and maintenance.",
+      "category": "Data Management"
+    },
+    {
+      "id": 5,
+      "front": "Commercial Business Data Classification Levels",
+      "back": "Common sensitivity levels for commercial businesses, from highest to lowest, are:\n•\n**Confidential**: Most sensitive information, if disclosed, could cause serious damage to the organization.\n•\n**Private**: Information about individuals within an organization.\n•\n**Sensitive**: Information that is critical to the organization but not necessarily confidential or private.\n•\n**Public**: Lowest level of classification, disclosure has no serious negative impact.",
+      "category": "Data Management"
+    },
+    {
+      "id": 6,
+      "front": "Military Data Classification Levels",
+      "back": "Common sensitivity levels for military purposes, from highest to lowest, are:\n•\n**Top Secret**: If disclosed, could cause grave damage to national security.\n•\n**Secret**: If disclosed, could cause serious damage to national security.\n•\n**Confidential**: If disclosed, could cause damage to national security.\n•\n**Controlled Unclassified Information (CUI)**: Unclassified, but requires protection.\n•\n**Unclassified**: Lowest level, no special protection required.",
+      "category": "Data Management"
+    },
+    {
+      "id": 7,
+      "front": "Data Owners",
+      "back": "**Data owners** are typically senior managers who are ultimately responsible for defining data classifications and ensuring that systems and data are properly marked and protected. They also define requirements for protecting data at different classification levels. While they have ultimate responsibility, they are typically not financially liable for data loss.",
+      "category": "Data Management"
+    },
+    {
+      "id": 8,
+      "front": "Data Custodians",
+      "back": "**Data custodians** are responsible for the day-to-day security administration of data. They implement the controls and procedures defined by the data owners to protect the information. This role is distinct from the data owner, who holds ultimate responsibility.",
+      "category": "Data Management"
+    },
+    {
+      "id": 9,
+      "front": "Data Life Cycle",
+      "back": "The **data life cycle** encompasses all stages of data from its inception to its eventual destruction. It begins with acquisition/creation and ends with disposal. Security issues need to be considered at each phase, including when data transitions between stages (e.g., during archival or transfer to an offsite location).",
+      "category": "Data Management"
+    },
+    {
+      "id": 10,
+      "front": "Data at Rest",
+      "back": "**Data at rest** (or stored data) refers to data that resides in a permanent location awaiting access. Examples include data stored on hard drives, backup tapes, cloud storage services, USB devices, and other storage media. Protection often involves encryption (e.g., whole disk encryption).",
+      "category": "Data Security"
+    },
+    {
+      "id": 11,
+      "front": "Data in Transit",
+      "back": "**Data in transit** (or data in motion/on the wire/in flight) refers to data that is being transmitted between two or more parties over a network medium. Protection primarily involves encryption (e.g., using IPSec, TLS, PPTP, SSH) to ensure confidentiality during communication.",
+      "category": "Data Security"
+    },
+    {
+      "id": 12,
+      "front": "Data in Use",
+      "back": "**Data in use** refers to data that is currently being processed, manipulated, or accessed by a computer system's CPU and memory. While sources don't explicitly detail security mechanisms for data in use, it is implicitly covered by general security concepts like memory protection and process isolation.",
+      "category": "Data Security"
+    },
+    {
+      "id": 13,
+      "front": "Personally Identifiable Information (PII)",
+      "back": "**Personally Identifiable Information (PII)** is any information that can identify an individual. This can include names, addresses, phone numbers, email addresses, social security numbers, medical records, financial account numbers, political affiliation, and other unique personal characteristics. Laws and regulations often mandate the protection of PII.",
+      "category": "Data Types"
+    },
+    {
+      "id": 14,
+      "front": "Protected Health Information (PHI)",
+      "back": "**Protected Health Information (PHI)** is any health-related information that can be related to a specific person. This includes medical records and other health data. Laws like HIPAA (Health Insurance Portability and Accountability Act) and GDPR (General Data Protection Regulation) mandate the protection of PHI.",
+      "category": "Data Types"
+    },
+    {
+      "id": 15,
+      "front": "Sensitive Information Management",
+      "back": "Proper management of sensitive information helps prevent unauthorized disclosure and loss of confidentiality. It includes four key aspects:\n•\n**Marking**: Affixing human-readable labels (e.g., Confidential) on documents and data files (electronic or hard copy) to indicate classification.\n•\n**Handling**: Established procedures for transporting, transmitting, and using sensitive information.\n•\n**Storing**: Protecting sensitive information while it resides in permanent locations, including backup media.\n•\n**Destroying**: Properly sanitizing or destroying sensitive information when it is no longer needed or at its end of life.",
+      "category": "Data Management"
+    },
+    {
+      "id": 16,
+      "front": "Record Retention Policies",
+      "back": "**Record retention policies** ensure that data is kept in a usable state for as long as it is needed and destroyed when it is no longer required. Many laws and regulations mandate specific retention periods, and in their absence, organizations define these periods through policy. Audit trail data, for instance, needs to be retained long enough to reconstruct past incidents.",
+      "category": "Data Management"
+    },
+    {
+      "id": 17,
+      "front": "Data Loss Prevention (DLP)",
+      "back": "**Data Loss Prevention (DLP)** refers to the actions organizations take to prevent unauthorized external parties from gaining access to sensitive data. DLP solutions focus on truly important data and aim to prevent unauthorized individuals from exfiltrating it. They should prevent leaks, not just alert to them.",
+      "category": "Security Controls"
+    },
+    {
+      "id": 18,
+      "front": "Scoping and Tailoring (Standards)",
+      "back": "These terms relate to adapting existing security standards to an organization's specific needs:\n•\n**Scoping**: The process of taking a broader standard and removing irrelevant or unwanted parts to fit a particular situation.\n•\n**Tailoring**: Making changes to specific provisions within a standard to better address an organization's unique requirements, such as modifying it to account for a specific technological platform.",
+      "category": "Standards and Policies"
+    },
+    {
+      "id": 19,
+      "front": "Asset Inventory",
+      "back": "An accurate and up-to-date **inventory of system and information assets** is critical to effective security. The principle 'You cannot protect what you do not know about' highlights its importance, as unidentified or unknown assets cannot be adequately protected and may become entry points for attackers. It is a prerequisite for many other security activities, such as patch management and data retention.",
+      "category": "Asset Management"
+    },
+    {
+      "id": 20,
+      "front": "End of Life (EOL) / End of Support (EOS)",
+      "back": "**End of Life (EOL)** and **End of Support (EOS)** dates are published by hardware and software vendors. Organizations must pay close attention to these dates and plan upgrades or migrations to newer products. Running production applications on EOL/EOS systems can lead to significant vulnerabilities because security patches may no longer be available.",
+      "category": "Asset Management"
+    },
+    {
+      "id": 21,
+      "front": "File Activity Monitoring (FAM)",
+      "back": "**File Activity Monitoring (FAM)** tools scan files periodically or continuously to detect access to and changes in sensitive or critical files. They can perform functions like file discovery, classification, and monitoring of file activities.",
+      "category": "Security Tools"
+    },
+    {
+      "id": 22,
+      "front": "File Integrity Monitoring (FIM)",
+      "back": "**File Integrity Monitoring (FIM)** tools validate the integrity of files, applications, and operating systems. While FIM shares some capabilities with FAM, they are generally used as complementary tools to ensure data integrity.",
+      "category": "Security Tools"
+    }
   ]
 }; 

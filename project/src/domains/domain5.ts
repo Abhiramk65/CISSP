@@ -571,5 +571,156 @@ export const domain5: Domain = {
     "explanation": "Identification establishes who a user is, and authentication verifies that they are who they claim to be."
 }
   ],
-  flashCards: []
+  flashCards: [
+    {
+      "id": 1,
+      "front": "Identity and Access Management (IAM)",
+      "back": "Identity and Access Management (IAM) refers to the collection of processes and technologies that control access to critical assets. In the modern cloud era, with widespread mobile computing and anytime, anywhere access to applications and data, many security practitioners now refer to identity as 'the new perimeter'. IAM is considered part of the core of information security, and when correctly implemented, it prevents unauthorised individuals from accessing critical assets, thereby reducing breaches and other abuses of information and assets.",
+      "category": "Access Control"
+    },
+    {
+      "id": 2,
+      "front": "Physical Access Control",
+      "back": "Physical access control is implemented to control access to facilities, ensuring the safety of personnel and protecting information systems and other assets located within. This is accomplished through various means, including key card access systems, which can be enhanced with optional biometric readers or personal identification number (PIN) pads. These systems function in both preventive (by restricting access to sensitive areas) and detective (by recording subjects' movements) contexts.",
+      "category": "Access Control"
+    },
+    {
+      "id": 3,
+      "front": "Logical Access Control",
+      "back": "Logical access control primarily employs logical controls that determine which people or systems (known as subjects) are permitted to access specific files, directories, databases, tables, records, or fields (known as objects). Examples of these mechanisms include file- and directory-level permissions, typically managed at the operating system level or within file-sharing systems like SharePoint. The main goal of logical controls is to ensure the confidentiality and integrity of data by disallowing unauthorised access.",
+      "category": "Access Control"
+    },
+    {
+      "id": 4,
+      "front": "Subject (Access Control)",
+      "back": "In access control terminology, a subject is an active entity that accesses a passive object to receive information from, or data about, an object. Subjects can include users, programs, processes, computers, or anything else that can access a resource. When authorised, subjects have the capability to modify objects. For simplification, you can often substitute the word 'user' for 'subject'.",
+      "category": "Access Control"
+    },
+    {
+      "id": 5,
+      "front": "Object (Access Control)",
+      "back": "In access control terminology, an object is a passive entity that provides information to active subjects. Examples of objects include files, databases, computers, programs, processes, printers, and storage media. You can often simplify by substituting the word 'file' for 'object'.",
+      "category": "Access Control"
+    },
+    {
+      "id": 6,
+      "front": "Identification",
+      "back": "Identification is the process by which a subject professes an identity, and accountability is initiated. It involves a subject providing an identity to a system (e.g., typing a username, swiping a smart card, presenting a biometric) to begin the authentication, authorisation, and accountability (AAA) process. Without identification, a system cannot link an authentication factor to the subject.",
+      "category": "Access Control"
+    },
+    {
+      "id": 7,
+      "front": "Authentication",
+      "back": "Authentication is the process of verifying the identity professed by a subject. It confirms that a user or entity is who they claim to be. This process typically involves authentication factors:\n• Something you know (e.g., passwords, PINs).\n• Something you have (e.g., smart cards, tokens).\n• Something you are (e.g., biometrics like fingerprint or iris scan).",
+      "category": "Access Control"
+    },
+    {
+      "id": 8,
+      "front": "Authorisation",
+      "back": "Authorisation is the process of determining what an authenticated subject can do with an object. It defines the permissions granted to a subject to access objects or perform specific actions on systems. Authorisation mechanisms ensure that even if an identity is verified, access is restricted to only what is necessary and allowed by policy.",
+      "category": "Access Control"
+    },
+    {
+      "id": 9,
+      "front": "Accountability",
+      "back": "Accountability refers to ensuring that the subject of an activity or event cannot deny that the event occurred. It requires linking an action to an individual or entity. Accountability is supported by mechanisms such as auditing, logging, and nonrepudiation. It provides the ability to trace activities and hold individuals responsible for their actions within a system.",
+      "category": "Access Control"
+    },
+    {
+      "id": 10,
+      "front": "Single Sign-On (SSO)",
+      "back": "Single Sign-On (SSO) is a system that allows a user to present a single set of login credentials (e.g., username and password) to an authentication server. This server then transparently logs the user on to all other enterprise systems and applications for which that user is authorised. The benefits of SSO include increased convenience for users and reduced risk for organisations, as users are more likely to use stronger passwords and handle credentials more safely.",
+      "category": "Access Control"
+    },
+    {
+      "id": 11,
+      "front": "Lightweight Directory Access Protocol (LDAP)",
+      "back": "Lightweight Directory Access Protocol (LDAP) is a protocol for querying and modifying directory services that run over TCP/IP. It can be thought of as a telephone directory for network services and assets. Users, clients, and processes can search the directory service to find where a desired system or resource resides. Subjects must authenticate to the directory service before performing queries and lookup activities, and the service reveals information based on assigned privileges.",
+      "category": "Access Control"
+    },
+    {
+      "id": 12,
+      "front": "Multi-Factor Authentication (MFA)",
+      "back": "Multi-Factor Authentication (MFA) is an authentication mechanism that requires two or more distinct factors from different categories to verify a user's identity. These factors typically fall into categories of:\n• Something you know (e.g., a password or PIN).\n• Something you have (e.g., a smart card, mobile phone for an OTP, or security token).\n• Something you are (e.g., a fingerprint or iris scan). MFA significantly reduces risk compared to single-factor authentication by adding layers of security.",
+      "category": "Access Control"
+    },
+    {
+      "id": 13,
+      "front": "Biometric Authentication",
+      "back": "Biometric authentication verifies identity based on unique physical characteristics (e.g., fingerprint, iris scan, facial pattern) or behavioural characteristics (e.g., voice pattern, gait). This method offers a high level of protection compared to other authentication mechanisms due to the inherent uniqueness of biometric data. However, considerations such as accuracy, error rates, and user acceptance are important.",
+      "category": "Access Control"
+    },
+    {
+      "id": 14,
+      "front": "Federated Identity Management (FIM)",
+      "back": "Federated Identity Management (FIM) is an arrangement that allows users to authenticate once and gain access to resources across multiple, independent security domains (e.g., partner organisations or cloud services) without needing to re-authenticate for each domain. It enables identity portability and typically relies on standards like Security Assertion Markup Language (SAML).",
+      "category": "Access Control"
+    },
+    {
+      "id": 15,
+      "front": "Identity and Access Provisioning Life Cycle",
+      "back": "The Identity and Access Provisioning Life Cycle encompasses formal policies and procedures for the creation, management, and deletion of accounts used by subjects to access assets. This cycle includes:\n• Provisioning: Initial steps of creating accounts and assigning appropriate access.\n• Ongoing Management: Role definition (assigning users to new roles), privilege escalation management (e.g., use of sudo).\n• Deprovisioning: Removing access and deleting accounts when no longer needed (e.g., upon employee termination). Effective management of this lifecycle is crucial for maintaining a secure environment and adhering to the principle of least privilege.",
+      "category": "Access Control"
+    },
+    {
+      "id": 16,
+      "front": "OpenID Connect (OIDC) / Open Authorization (OAuth)",
+      "back": "OpenID Connect (OIDC) is a standards-based authentication protocol built on the OAuth (specifically, OAuth 2.0) framework. OAuth 2.0 is used to grant an application access to another application's data. OIDC, in turn, provides an identity layer on top of OAuth 2.0, enabling clients to verify the identity of the end-user based on authentication performed by an authorization server, and to obtain basic profile information about the end-user in an interoperable and REST-like manner. This typically involves an authorization server (identity platform) and an OAuth client (native or web app).",
+      "category": "Access Control"
+    },
+    {
+      "id": 17,
+      "front": "Security Assertion Markup Language (SAML)",
+      "back": "Security Assertion Markup Language (SAML) is an XML-based open standard for exchanging authentication and authorisation data between security domains. It is commonly used for federated identity management and web-based single sign-on (SSO) scenarios, allowing a user's authenticated identity to be transferred between different service providers. SAML defines how security assertions (statements about an authenticated user) are created and exchanged.",
+      "category": "Access Control"
+    },
+    {
+      "id": 18,
+      "front": "Kerberos",
+      "back": "Kerberos is a network authentication protocol that uses secret-key cryptography to provide strong authentication for client/server applications by proving identities over an insecure network. It provides mutual authentication, meaning both the user and the server verify each other's identity. Kerberos relies on a trusted third party, the Key Distribution Centre (KDC), to issue tickets that grant access to services.",
+      "category": "Access Control"
+    },
+    {
+      "id": 19,
+      "front": "Remote Authentication Dial-In User Service (RADIUS)",
+      "back": "Remote Authentication Dial-In User Service (RADIUS) is an Authentication, Authorisation, and Accounting (AAA) protocol that manages access in an AAA transaction. RADIUS typically uses UDP for transport and is commonly used for network access authentication (e.g., VPNs, Wi-Fi networks). While widely adopted, it has some shortcomings, including using UDP and transmitting passwords in the clear in its basic form.",
+      "category": "Access Control"
+    },
+    {
+      "id": 20,
+      "front": "Terminal Access Controller Access Control System Plus (TACACS+)",
+      "back": "Terminal Access Controller Access Control System Plus (TACACS+) is a TCP-based (port 49) access control protocol that provides Authentication, Authorisation, and Accounting (AAA) services. It is known for its wide support of various authentication mechanisms (e.g., PAP, CHAP, MS-CHAP, EAP, token cards, Kerberos) and its granular control of authorisation parameters. TACACS+ is often considered an enhancement over older TACACS versions and RADIUS in certain enterprise environments.",
+      "category": "Access Control"
+    },
+    {
+      "id": 21,
+      "front": "Need to Know",
+      "back": "Need to Know is a security principle that dictates that individuals should only have access to the essential information required to perform their assigned job function. This principle limits access based on specific job responsibilities, even if a user holds a higher security clearance that would otherwise permit broader access. It is a fundamental concept in protecting sensitive information.",
+      "category": "Access Control"
+    },
+    {
+      "id": 22,
+      "front": "Principle of Least Privilege",
+      "back": "The Principle of Least Privilege states that in a secured environment, users (or other subjects) should be granted the minimum amount of access necessary to complete their required work tasks or job responsibilities. By limiting user access to only what they need, this principle significantly reduces the vulnerability of sensitive information and limits the scope of damage if a security incident occurs. It is closely related to the 'need to know' principle.",
+      "category": "Access Control"
+    },
+    {
+      "id": 23,
+      "front": "Separation of Duties",
+      "back": "Separation of Duties is a security concept involving the division of critical, significant, or sensitive work tasks among several individuals. This practice ensures that no single person possesses complete authority or control over a critical system or process, thereby preventing any one individual from compromising system security through fraud, error, or malicious intent.",
+      "category": "Access Control"
+    },
+    {
+      "id": 24,
+      "front": "Transitive Trust",
+      "back": "A transitive trust extends a trust relationship between two security domains (e.g., Domain A trusts Domain B) to all of their subdomains (e.g., if Domain B trusts Domain C, then Domain A also implicitly trusts Domain C). In the context of the principle of least privilege, non-transitive trusts are often preferred as they enforce the principle by granting trust to a single domain at a time, preventing unintended or overly broad access permissions.",
+      "category": "Access Control"
+    },
+    {
+      "id": 25,
+      "front": "Privilege Escalation",
+      "back": "Privilege escalation refers to the act of a user or process gaining access rights higher than what was originally intended or granted. This can involve moving from a lower-privileged user account to a higher-privileged administrative account, or from user mode to kernel/privileged mode. Mechanisms and practices, such as Privileged Access Management (PAM), are used to manage and monitor privileged credentials and access to systems and devices to prevent unauthorised escalation.",
+      "category": "Access Control"
+    }
+  ]
 }; 

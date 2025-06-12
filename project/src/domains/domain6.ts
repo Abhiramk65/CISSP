@@ -571,5 +571,78 @@ export const domain6: Domain = {
     "explanation": "Identification establishes who a user is, and authentication verifies that they are who they claim to be."
 }
   ],
-  flashCards: []
+  flashCards: [
+    {
+      "id": 1,
+      "front": "Security Assessment and Testing Strategy",
+      "back": "Proactive plan to design and validate security controls, integrated with risk management, to identify new and changing risks and ensure legal/regulatory compliance.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 2,
+      "front": "Vulnerability Assessment",
+      "back": "Identifies, evaluates, quantifies, and prioritizes security weaknesses in systems or applications, often providing remediation steps.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 3,
+      "front": "Penetration Testing (Pen Testing)",
+      "back": "Simulates attacks to evaluate security controls and resistance to bypass; often involves social engineering and physical penetration.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 4,
+      "front": "Security Control Testing Methods",
+      "back": "Various techniques to evaluate controls, including synthetic transactions (scripted tests), interface testing (APIs), code review (static/dynamic analysis), fuzzing (invalid input), misuse case testing, and breach attack simulations.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 5,
+      "front": "Security Process Data Collection",
+      "back": "Gathering technical (logs, performance) and administrative (training, DRP tests) data to assess security posture, often through continuous monitoring.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 6,
+      "front": "Information Security Continuous Monitoring (ISCM)",
+      "back": "Ongoing awareness of security, vulnerabilities, and threats to support organizational risk management decisions in a dynamic environment.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 7,
+      "front": "Test Output Analysis and Reporting",
+      "back": "Interpreting raw test data and logs to generate meaningful reports for various audiences (e.g., engineers, senior management), often using business metrics.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 8,
+      "front": "Remediation",
+      "back": "The process of fixing identified security issues or vulnerabilities to mitigate risks after assessment and testing.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 9,
+      "front": "Ethical Disclosure",
+      "back": "The responsible practice of revealing security vulnerabilities to affected parties (e.g., vendors) to enable them to develop patches before public release.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 10,
+      "front": "Security Audit",
+      "back": "A systematic examination of systems/processes, typically by an independent party, to ensure compliance with external standards, proper design, and effectiveness.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 11,
+      "front": "Security Metrics, KPIs, and KRIs",
+      "back": "Quantifiable measures (metrics) and key performance/risk indicators used to track ISMS performance, communicate risks, and support informed decision-making.",
+      "category": "Security Assessment"
+    },
+    {
+      "id": 12,
+      "front": "Management Review (Plan-Do-Check-Act Loop)",
+      "back": "Formal meetings where senior leaders evaluate ISMS performance (Check) and decide on adjustments (Act) to goals, standards, or policies for continuous improvement.",
+      "category": "Security Assessment"
+    }
+  ]
 }; 

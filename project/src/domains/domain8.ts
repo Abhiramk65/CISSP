@@ -607,5 +607,114 @@ export const domain8: Domain = {
       "explanation": "Keeping development tools and infrastructure updated with the latest security patches helps protect the development environment from known vulnerabilities that could be exploited to compromise the software being built."
     }
   ],
-  flashCards: []
+  flashCards: [
+    {
+      "id": 1,
+      "front": "Software Development Life Cycle (SDLC)",
+      "back": "The SDLC refers to all steps required to develop and maintain software and systems from conception through implementation, support, and retirement. Security is most effective when planned and managed throughout the entire life cycle of a system. It's crucial to build security into a system early on, rather than adding it later, as this is much easier and more reliable.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 2,
+      "front": "Secure Design Principles",
+      "back": "These are fundamental best practices for building secure software and systems. Key principles include:\n• Threat modeling: Identifying exploitable security defects early in the design phase.\n• Least privilege: Granting the minimum access necessary for a system, user, or process to perform its function.\n• Defense in depth: Using multiple layers of security controls in series to guard against threats.\n• Secure defaults: Configuring systems with secure settings from the outset.\n• Fail securely: Designing systems to behave predictably and non-compromisingly in the event of a failure.\n• Separation of duties (SoD): Dividing critical tasks among multiple individuals to prevent any single person from compromising security.\n• Keep it simple and small: Reducing complexity to make systems easier to understand and secure.\n• Zero trust: Assuming no entity is trusted until verified, and limiting that trust.\n• Privacy by design: Integrating data protection as an integral part of system design, not an afterthought.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 3,
+      "front": "Agile Development",
+      "back": "An iterative and less formal approach to software development that focuses on speed and rapidly evolving business requirements. While it offers quick deployment, security needs to be a constant consideration for everyone involved due to the lack of extensive up-front formal planning found in traditional methodologies.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 4,
+      "front": "DevOps",
+      "back": "A culture and practice that aims to improve communication and collaboration between software developers and IT operations teams to facilitate rapid and efficient deployment. It can introduce risks if the traditional separation between development and production environments is not adequately managed with proper controls.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 5,
+      "front": "DevSecOps (Shift Security Left)",
+      "back": "Integrates security practices directly into the DevOps process. The concept of 'Shift Security Left' means including security activities earlier in the development life cycle, moving them to the 'left' on the timeline. This involves security considerations in planning, coding, and testing phases.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 6,
+      "front": "Software Maturity Models",
+      "back": "Frameworks that help software organizations improve the maturity and quality of their software processes by implementing an evolutionary path from ad hoc to disciplined practices. Examples include the Capability Maturity Model for Software (SW-CMM) and the Building Security in Maturity Model (BSIMM).",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 7,
+      "front": "Secure Coding Practices",
+      "back": "Efforts to reduce exploitable vulnerabilities in software. This involves more than just coding, encompassing:\n• Tools: Using IDEs integrated with security tools (SAST, DAST) to detect defects early.\n• Processes: Implementing security requirements, peer reviews, and vulnerability scanning in the development process.\n• Training: Educating developers on secure development techniques.\ Temporarily removed sensitive information.\n• Language Selection: Choosing programming languages with inherent security features.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 8,
+      "front": "Input Validation",
+      "back": "A critical secure coding practice where developers check the size and type of user input to prevent vulnerabilities like buffer overflows. Treating all inputs as untrusted until verified is a key aspect of defensive programming.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 9,
+      "front": "Fail Securely vs. Fail Open",
+      "back": "Design principles dictating how a system behaves upon failure.\n• Fail Secure: The system defaults to a high level of security, denying access or shutting down to prevent compromise. This is generally the preferred approach for critical systems.\n• Fail Open: The system defaults to an open state, potentially allowing access or operation but sacrificing security.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 10,
+      "front": "Static Application Security Testing (SAST)",
+      "back": "A class of tools used to evaluate the security of software without running it, by analyzing either the source code or the compiled application. SAST tools are often integrated into IDEs and build environments to detect common flaws like buffer overflows. It is sometimes known as white-box testing.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 11,
+      "front": "Dynamic Application Security Testing (DAST)",
+      "back": "A class of tools used to evaluate the security of software in a runtime environment. DAST tools execute the program and provide various inputs to discover exploitable weaknesses, commonly used for web-based and mobile applications.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 12,
+      "front": "Code Repositories",
+      "back": "Centralized storage points for program source code, supporting version control, bug tracking, and collaboration. They must be protected from unauthorized access and changes through system hardening, restricted access to critical code, retention of all versions, and check-in approvals.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 13,
+      "front": "Source Code Vulnerabilities",
+      "back": "Common weaknesses in software code that attackers can exploit. These include:\n• Buffer Overflows: Occur when user input exceeds allocated memory, potentially allowing arbitrary code execution.\n• Injection Attacks: Malicious input (e.g., SQL, script) manipulates an application to access sensitive data.\n• Race Conditions: Defects where multiple processes or threads access a resource without exclusive control, leading to unexpected results.\n• Improper Authentication (Authentication Bypass): Flaws that allow an attacker to circumvent or bypass authentication mechanisms.\n• Memory Leaks: A program fails to release unneeded memory, exhausting resources over time.\n• Trap Doors (Back Doors): Undocumented functions, often left by developers for testing, that can bypass security.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 14,
+      "front": "Acquired Software Security",
+      "back": "Evaluating the security impact of software obtained from external entities, such as Commercial Off-The-Shelf (COTS), open-source, or third-party vendors. It involves understanding potential risks, and some vendors undergo audits like SOC 1/2 or ISO 27001 to provide assurance. Organizations may also use a Software Bill of Materials (SBOM) to track components and Software Composition Analysis (SCA) tools for open-source usage.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 15,
+      "front": "Software-Defined Security (SDS)",
+      "back": "A security model where software defines and controls security mechanisms, often implementing security hardware devices (like firewalls or IPSes) as software-based virtual machines. It is closely related to Network Function Virtualization (NFV).",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 16,
+      "front": "Security Orchestration, Automation, and Response (SOAR)",
+      "back": "Platforms designed to automate and streamline security operations, including incident response. SOAR can enable faster responses to attacks than human intervention alone, helping to prevent successful breaches. It integrates with Security Information and Event Management (SIEM) systems.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 17,
+      "front": "Change and Configuration Management (in SDLC)",
+      "back": "Processes crucial for managing software development security.\n• Change Management: An approval-based process to ensure only approved changes are implemented, with components like request control, change control, and release control.\n• Configuration Management: The process of actively managing and documenting the configuration of every system, device, and application, including tracking and controlling changes to software versions. It ensures consistency and protects against unauthorized alterations.",
+      "category": "Software Development Security"
+    },
+    {
+      "id": 18,
+      "front": "Privacy by Design (Software Specific)",
+      "back": "The principle of incorporating data protection as an integral part of an information system's design, rather than an afterthought. This aligns with regulations like GDPR and involves proactive, preventative measures with privacy as a default setting, ensuring end-to-end security and user-centricity.",
+      "category": "Software Development Security"
+    }
+  ]
 }; 

@@ -607,5 +607,222 @@ export const domain7: Domain = {
       "explanation": "The simplest and most effective countermeasure against internal telephone abuse is publishing and enforcing a corporate telephone-use policy. Regular auditing of telephone records is also effective for deterring and detecting such abuse."
     }
   ],
-  flashCards: []
+  flashCards: [
+    {
+      "id": 1,
+      "front": "Need to Know",
+      "back": "A security principle that limits access to information to only what is required to perform assigned job functions.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 2,
+      "front": "Principle of Least Privilege",
+      "back": "Grants users the absolute minimum access necessary to complete their work tasks or job responsibilities.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 3,
+      "front": "Separation of Duties",
+      "back": "Dividing critical, significant work tasks among several individuals to prevent any single person from compromising security.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 4,
+      "front": "Job Rotation",
+      "back": "Periodically changing employee work assignments to limit fraud, detect errors, and broaden employee skills and understanding.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 5,
+      "front": "Accountability",
+      "back": "Ensures that actions of individual users can be uniquely traced to those users, holding them responsible for their deeds.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 6,
+      "front": "Service Level Agreement (SLA)",
+      "back": "A quantified statement outlining service provider performance and customer expectations, often used to ensure system availability.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 7,
+      "front": "Subject (Access Control)",
+      "back": "An active entity (e.g., user, program, process) that accesses passive objects to receive or process information.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 8,
+      "front": "Object (Access Control)",
+      "back": "A passive entity (e.g., file, database, printer) that provides information to active subjects.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 9,
+      "front": "Computer Crime Categories",
+      "back": "Six major types of computer crimes are military/intelligence, business, financial, terrorist, grudge, and thrill attacks.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 10,
+      "front": "Evidence Collection and Handling",
+      "back": "The systematic process of gathering and protecting information related to an incident for potential legal action or investigation.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 11,
+      "front": "Chain of Custody",
+      "back": "A chronological documentation of evidence handling, from its collection to its presentation, ensuring its integrity and admissibility in court.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 12,
+      "front": "Incident Response Steps",
+      "back": "A formal process sequence: detection, response, mitigation, reporting, recovery, remediation, and lessons learned.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 13,
+      "front": "Disaster Recovery Plan (DRP)",
+      "back": "A set of procedures to follow when a disaster interrupts normal business operations, guiding efforts to quickly restore services.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 14,
+      "front": "Hot Site",
+      "back": "A fully equipped and constantly maintained backup facility capable of immediate takeover of business operations.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 15,
+      "front": "Warm Site",
+      "back": "A backup facility with preconfigured hardware and software, but requiring some time to load data and resume full operations.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 16,
+      "front": "Cold Site",
+      "back": "A basic backup facility with power and environmental support, but no pre-installed hardware or software; requires the longest activation time.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 17,
+      "front": "Business Continuity Planning (BCP)",
+      "back": "Focuses on ensuring critical business functions continue operating during and after a disaster, potentially at an alternative location.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 18,
+      "front": "Maximum Tolerable Downtime (MTD)",
+      "back": "The maximum period an organization can withstand without a specific business function before suffering unacceptable impact.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 19,
+      "front": "Intrusion Detection System (IDS)",
+      "back": "A passive security measure that monitors network traffic or system activity for unauthorized behavior and alerts administrators.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 20,
+      "front": "Intrusion Prevention System (IPS)",
+      "back": "An active security measure that detects and attempts to block unauthorized activity in real time by analyzing network traffic.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 21,
+      "front": "Security Information and Event Management (SIEM)",
+      "back": "A platform that aggregates, correlates, and analyzes security data from various sources to provide a holistic view of an organization's security posture.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 22,
+      "front": "Threat Intelligence",
+      "back": "Information about existing or emerging threats that helps organizations understand and make informed decisions to mitigate risks.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 23,
+      "front": "Change Management",
+      "back": "An approval-based process that ensures only authorized and controlled modifications are made to IT systems, configurations, and applications.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 24,
+      "front": "Configuration Management",
+      "back": "The process of actively managing and thoroughly documenting the configurations of all systems, devices, and applications within an organization.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 25,
+      "front": "Patch Management",
+      "back": "The systematic process of evaluating, testing, and deploying updates (patches) to software and systems to fix bugs and security vulnerabilities.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 26,
+      "front": "Vulnerability Assessment",
+      "back": "The process of identifying, quantifying, and prioritizing security weaknesses in systems, applications, or processes, and providing remediation steps.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 27,
+      "front": "Data Marking/Labeling",
+      "back": "Affixing human-readable classification indicators (e.g., Confidential, Private) to data and media to signify its sensitivity and protection requirements.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 28,
+      "front": "Data Handling",
+      "back": "Defined procedures and guidelines for transporting, transmitting, and using sensitive information to ensure its protection.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 29,
+      "front": "Data Destruction",
+      "back": "The proper and secure disposal of sensitive information and the media it resides on (e.g., shredding, degaussing) when no longer needed.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 30,
+      "front": "Data Retention Policy",
+      "back": "A policy that defines how long specific types of data must be kept and when they can be securely destroyed, often driven by legal/regulatory requirements.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 31,
+      "front": "Data at Rest",
+      "back": "Data that is stored on physical media such as hard drives, backup tapes, or cloud storage, awaiting access.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 32,
+      "front": "Data in Transit (or Data in Motion)",
+      "back": "Data that is actively being transmitted over a network, such as during communication between two or more parties.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 33,
+      "front": "Data in Use",
+      "back": "Data that is currently being processed or held in temporary storage buffers (e.g., RAM, CPU registers) by an application or system.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 34,
+      "front": "Physical Security Controls",
+      "back": "Mechanisms like fences, security guards, access control systems (e.g., key cards), and lighting designed to protect physical assets and facilities.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 35,
+      "front": "Fire Suppression Systems",
+      "back": "Systems (e.g., wet pipe, dry pipe, preaction, CO2, Halon substitutes) used to detect, contain, and extinguish fires based on their classification.",
+      "category": "Security Operations"
+    },
+    {
+      "id": 36,
+      "front": "Personnel Safety",
+      "back": "Implementing security controls and procedures that prioritize and enhance the well-being and safety of employees in all situations.",
+      "category": "Security Operations"
+    }
+  ]
 }; 
